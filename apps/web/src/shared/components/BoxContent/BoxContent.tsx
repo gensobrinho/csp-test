@@ -1,9 +1,10 @@
-
 import styled from '@emotion/styled';
-import { buildStyledProps, ICommonStyledProps } from '../../styles/common';
+import { buildStyledProps, type ICommonStyledProps } from '../../styles/common';
 
-export interface IContentProps extends ICommonStyledProps { }
+export type IContentProps = ICommonStyledProps;
 
-const BoxContent = styled.div((styledProps: ICommonStyledProps) => buildStyledProps(styledProps) as any);
+const BoxContent = styled.div((styledProps: ICommonStyledProps) =>
+  buildStyledProps(styledProps),
+);
 
 export default BoxContent;

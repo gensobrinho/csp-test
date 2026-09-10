@@ -27,11 +27,11 @@ abstract class BaseApiInstance {
     return this.axiosInstance.get<T>(url, config);
   }
 
-  public post<T>(url: string, data?: any, config: AxiosRequestConfig = {}): Promise<AxiosResponse<T>> {
+  public post<T>(url: string, data?: unknown, config: AxiosRequestConfig = {}): Promise<AxiosResponse<T>> {
     return this.axiosInstance.post<T>(url, data, config);
   }
 
-  public put<T>(url: string, data?: any, config: AxiosRequestConfig = {}): Promise<AxiosResponse<T>> {
+  public put<T>(url: string, data?: unknown, config: AxiosRequestConfig = {}): Promise<AxiosResponse<T>> {
     return this.axiosInstance.put<T>(url, data, config);
   }
 

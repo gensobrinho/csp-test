@@ -1,1 +1,4 @@
-export type TDemo = {}
+export type TDemo = {
+  id?: string;
+  name?: string;
+};

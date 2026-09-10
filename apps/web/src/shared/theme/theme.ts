@@ -3,13 +3,13 @@ import { TTheme } from './TTheme';
 export const theme: TTheme = {
   colors: {
     default: {
-        bg: ''
+      bg: '#1B3A4B',
     },
     dark: {
-        bg: ''
+      bg: '#0F2430',
     },
     light: {
-        bg: ''
+      bg: '#F4F7F9',
     },
   },
 };

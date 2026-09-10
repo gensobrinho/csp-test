@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { TColors, TTheme, theme } from '../theme';
+import { TColors, theme } from '../theme';
 
 export interface ICommonStyledProps {
   center?: boolean;
@@ -13,12 +13,13 @@ export interface ICommonStyledProps {
   padH?: number;
   flex?: number;
   bg?: keyof TColors;
-  colorScheme?: 'light' | 'dark';
+  colorScheme?: 'light' | 'dark' | 'default';
   fit?: boolean;
   justify?: CSSProperties['justifyContent'];
   align?: CSSProperties['alignItems'];
   radius?: number;
 }
+
 export const buildStyledProps = ({
   center,
   centerX,
@@ -36,22 +37,23 @@ export const buildStyledProps = ({
   padV,
   padH,
   absolute,
-}: ICommonStyledProps & { theme?: TTheme }) => {
+}: ICommonStyledProps) => {
   return {
+    display: 'flex',
+    flexDirection: flexRow ? ('row' as const) : ('column' as const),
     ...(centerX && { justifyContent: 'center' }),
     ...(centerY && { alignItems: 'center' }),
     ...(center && { justifyContent: 'center', alignItems: 'center' }),
-    ...(flexRow && { flexDirection: 'row' }),
-    ...(gap && { gap: gap }),
+    ...(gap !== undefined && { gap }),
     ...(bg && { backgroundColor: theme.colors[colorScheme][bg] }),
     flex: flex ?? 1,
     ...(fit && { flex: 0 }),
     ...(justify && { justifyContent: justify }),
     ...(align && { alignItems: align }),
-    ...(radius && { borderRadius: radius }),
-    ...(pad && { padding: pad }),
-    ...(padV && { paddingVertical: padV }),
-    ...(padH && { paddingHorizontal: padH }),
-    ...(absolute && { position: 'absolute' }),
+    ...(radius !== undefined && { borderRadius: radius }),
+    ...(pad !== undefined && { padding: pad }),
+    ...(padV !== undefined && { paddingTop: padV, paddingBottom: padV }),
+    ...(padH !== undefined && { paddingLeft: padH, paddingRight: padH }),
+    ...(absolute && { position: 'absolute' as const }),
   };
 };

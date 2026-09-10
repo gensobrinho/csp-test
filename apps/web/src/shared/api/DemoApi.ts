@@ -1,35 +1,31 @@
-import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import BaseApiInstance from './BaseApiInstance';
 import { EXAMPLE_API } from './apiUtils';
 
-class MentorApi extends BaseApiInstance {
+class DemoApi extends BaseApiInstance {
   constructor() {
     super(EXAMPLE_API.DEFAULT_REQUEST_CONFIG);
   }
 
   protected initializeRequestInterceptor() {
     this.axiosInstance.interceptors.request.use(
-      async (config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> => {
-        const token = await this.getToken();
-        config.headers['Authorization'] = `Bearer ${token}`;
+      (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+        const token = sessionStorage.getItem('auth_token');
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
         return config;
       },
-      (error) => {
-        return Promise.reject(error);
-      },
+      (error) => Promise.reject(error),
     );
   }
 
   protected initializeResponseInterceptor(): void {
     this.axiosInstance.interceptors.response.use(
-      (response: AxiosResponse): AxiosResponse => {
-        return response;
-      },
-      (error) => {
-        return Promise.reject(error);
-      },
+      (response: AxiosResponse): AxiosResponse => response,
+      (error) => Promise.reject(error),
     );
   }
 }
 
-export default MentorApi;
+export default DemoApi;

@@ -6,7 +6,7 @@ export class BaseRepository implements IBaseRepository {
     return error.response?.status ?? null;
   }
 
-  addQueryParams(url: string, params: { [key: string]: any }): string {
+  addQueryParams(url: string, params: Record<string, string | number | boolean | undefined>): string {
     if (!params) {
       return url;
     }
