@@ -1,27 +1,23 @@
 import { createStore } from 'zustand/vanilla';
 import { immer } from 'zustand/middleware/immer';
-import {
-  demoSlice,
-  type IDemoActions,
-  type IDemoInitialState,
-} from '../../features/Demo';
+import { authSlice, IAuthActions, IAuthInitialState } from '@/src/features/Auth';
 
 export type SetCallback<T> = (
   nextStateOrUpdater: ((state: T) => void) | T,
   shouldReplace?: false,
 ) => void;
 
-export type TGlobalInitialState = IDemoInitialState;
-export type TGlobalActions = IDemoActions;
+export type TGlobalInitialState = IAuthInitialState;
+export type TGlobalActions = IAuthActions;
 
 export const slices = {
-  demoSlice: demoSlice.slice,
+  authSlice: authSlice.slice,
 };
 
-export type Store = ReturnType<(typeof slices)['demoSlice']>;
+export type Store = ReturnType<(typeof slices)['authSlice']>;
 
 export const vanillaStore = createStore(
   immer<Store>((set) => ({
-    ...demoSlice.slice(set as SetCallback<IDemoInitialState>),
+    ...authSlice.slice(set as SetCallback<IAuthInitialState>),
   })),
 );
