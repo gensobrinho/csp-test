@@ -1,5 +1,24 @@
 {
-    "name": "@csp-test/api",
-    "private": true,
-    "version": "0.0.0"
+  "name": "@csp-test/api",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "start:prod": "npm run build && npm run start",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{ts,js,json,md,yml,yaml}\""
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.20.2",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  },
+  "type": "module"
 }
