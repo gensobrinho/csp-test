@@ -1,0 +1,1 @@
+export { default as demoSlice, IDemoInitialState, IDemoActions } from './sliceStore/demoSliceStore';
