@@ -16,7 +16,23 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@/*": ["./*"],
+      "@src": ["./src"],
+      "@assets": ["./assets"],
+      "@shared": ["./src/shared/index.ts"],
+      "@shared/hooks": ["./src/shared/hooks/index.ts"],
+      "@shared/components": ["./src/shared/components/index.ts"],
+      "@shared/theme": ["./src/shared/theme/index.ts"],
+      "@shared/types": ["./src/shared/types/index.ts"],
+      "@shared/utils": ["./src/shared/utils/index.ts"],
+      "@shared/mocks": ["./src/shared/__mocks__/index.ts"],
+      "@shared/api": ["./src/shared/api/index.ts"],
+      "@shared/store": ["./src/shared/store/store.ts"],
+      "@features": ["./src/features/index.ts"],
+      "@features/*": ["./src/features/*"]
+    }
   },
   "include": ["src"]
 }
