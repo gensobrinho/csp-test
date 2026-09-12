@@ -10,6 +10,15 @@ export type TTextStyle = {
 
 export type TColors = {
     bg: string;
+    primary: string;
+    primaryText: string;
+    secondaryText: string;
+    border: string;
+    grey: string;
+    lightBlue: string;
+    lightPink: string;
+    yellow: string;
+    lightGreen: string;
 }
 
 export type TColorScheme = {
