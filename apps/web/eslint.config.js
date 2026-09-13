@@ -39,6 +39,7 @@ export default [
       ...jsxA11y.configs.recommended.rules,
       ...eslintConfigPrettier.rules,
       'react/react-in-jsx-scope': 'off',
+      curly: ['error', 'all'],
       'react/prop-types': 'off',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
