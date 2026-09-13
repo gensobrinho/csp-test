@@ -22,3 +22,9 @@ export const AUTH_API = {
     GET_USER_INFO: '/auth/me',
   },
 } as const;
+
+export const KANBAN_API = {
+  ENTRY_POINTS: {
+    GET_DEMANDS: '/demands',
+  },
+} as const;

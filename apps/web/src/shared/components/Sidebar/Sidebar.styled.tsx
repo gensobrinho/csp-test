@@ -7,7 +7,7 @@ export const SidebarRoot = styled.aside(({ theme }) => ({
   boxSizing: 'border-box',
   width: 240,
   minWidth: 240,
-  minHeight: '100vh',
+  height: '100%',
   padding: '32px 20px',
   backgroundColor: theme.colors.default.accent,
   color: theme.colors.default.primaryText,
