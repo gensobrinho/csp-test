@@ -14,23 +14,8 @@ import {
   CardTop,
   Deadline,
 } from './styles/KanbanScreen.styled';
-
-function getInitials(name: string) {
-  return name
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? '')
-    .join('');
-}
-
-function formatDeadline(deadline: string) {
-  const date = new Date(`${deadline}T00:00:00`);
-  if (Number.isNaN(date.getTime())) {
-    return deadline;
-  }
-  return new Intl.DateTimeFormat('pt-BR').format(date);
-}
+import { getInitials } from '@/src/shared/utils/helperFunctions';
+import { formatDeadline } from '../utils/helperFunctions';
 
 export interface KanbanCardProps {
   demand: TDemand;

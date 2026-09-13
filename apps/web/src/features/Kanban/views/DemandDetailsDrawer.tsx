@@ -1,7 +1,6 @@
 import { FiCalendar, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { Button, Drawer, Spinner } from '@shared/components';
 import TEXTS from '@shared/i18n';
-import { KANBAN_COLUMNS } from '../constants/kanbanColumns';
 import { useDemandDetails } from '../hooks/useDemandDetails';
 import type { TDemandStatus } from '../types/TDemandStatus';
 import { Avatar, Deadline, StatusPill } from './styles/KanbanScreen.styled';
@@ -13,6 +12,8 @@ import {
   DetailsResponsible,
   DetailsTitleValue,
 } from './styles/DemandDetailsDrawer.styled';
+import { getInitials } from '@/src/shared/utils/helperFunctions';
+import { formatDeadline, getStatusBackground } from '../utils/helperFunctions';
 
 const STATUS_LABELS: Record<TDemandStatus, string> = {
   not_started: TEXTS.kanban.columns.notStarted,
@@ -21,29 +22,6 @@ const STATUS_LABELS: Record<TDemandStatus, string> = {
   in_homologation: TEXTS.kanban.columns.inHomologation,
   in_production: TEXTS.kanban.columns.inProduction,
 };
-
-function getInitials(name: string) {
-  return name
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? '')
-    .join('');
-}
-
-function formatDeadline(deadline: string) {
-  const date = new Date(`${deadline}T00:00:00`);
-  if (Number.isNaN(date.getTime())) {
-    return deadline;
-  }
-  return new Intl.DateTimeFormat('pt-BR').format(date);
-}
-
-function getStatusBackground(status: TDemandStatus) {
-  return KANBAN_COLUMNS.find((column) => column.status === status)?.background
-    ?? '#EEF1F4';
-}
-
 export interface DemandDetailsDrawerProps {
   demandId: string | null;
   onClose: () => void;
