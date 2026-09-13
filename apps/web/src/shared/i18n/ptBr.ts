@@ -3,10 +3,22 @@ const PT_BR = {
     showPassword: 'Mostrar senha',
     hidePassword: 'Ocultar senha',
   },
+  sidebar: {
+    brand: 'CSP Tech',
+    navigation: 'Navegação principal',
+    kanban: 'Kanban',
+    demandas: 'Demandas',
+    usuarios: 'Usuários',
+  },
   home: {
     title: 'Início',
     signedInAs: 'Você está conectado como',
     profile: 'Perfil',
+  },
+  placeholders: {
+    kanbanTitle: 'Kanban',
+    demandsTitle: 'Demandas',
+    usersTitle: 'Usuários',
   },
   auth: {
     accessing: 'Acessando...',

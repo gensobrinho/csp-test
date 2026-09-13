@@ -1,4 +1,7 @@
 export enum RoutesEnum {
-    HOME = '/',
-    LOGIN = '/login',
+  HOME = '/',
+  KANBAN = '/kanban',
+  DEMANDS = '/demandas',
+  USERS = '/usuarios',
+  LOGIN = '/login',
 }
