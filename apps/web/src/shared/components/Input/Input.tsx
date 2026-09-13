@@ -1,5 +1,9 @@
-import { forwardRef, useId, type ComponentPropsWithoutRef } from 'react';
-import { Field, Label, RequiredMark, StyledInput, Message } from './Input.styled';
+import { forwardRef, useId, useState, type ComponentPropsWithoutRef } from 'react';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
+import TEXTS from '@shared/i18n';
+import {
+  Field, Label, RequiredMark, StyledInput, Message, InputControl, VisibilityButton,
+} from './Input.styled';
 
 export interface InputProps extends ComponentPropsWithoutRef<'input'> {
   label: string;
@@ -8,8 +12,10 @@ export interface InputProps extends ComponentPropsWithoutRef<'input'> {
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, helperText, id, required, disabled, ...props }, ref) => {
+  ({ label, error, helperText, id, required, disabled, type = 'text', ...props }, ref) => {
     const generatedId = useId();
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const isPassword = type === 'password';
     const inputId = id ?? generatedId;
     const message = error || helperText;
     const messageId = `${inputId}-message`;
@@ -24,15 +30,31 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {label}
           {required && <RequiredMark aria-hidden="true"> *</RequiredMark>}
         </Label>
-        <StyledInput
-          {...props}
-          ref={ref}
-          id={inputId}
-          required={required}
-          disabled={disabled}
-          aria-invalid={error ? true : props['aria-invalid']}
-          aria-describedby={describedBy}
-        />
+        <InputControl fit>
+          <StyledInput
+            {...props}
+            ref={ref}
+            id={inputId}
+            type={isPassword && isPasswordVisible ? 'text' : type}
+            $hasReveal={isPassword}
+            required={required}
+            disabled={disabled}
+            aria-invalid={error ? true : props['aria-invalid']}
+            aria-describedby={describedBy}
+          />
+          {isPassword && (
+            <VisibilityButton
+              type="button"
+              disabled={disabled}
+              aria-label={isPasswordVisible ? TEXTS.input.hidePassword : TEXTS.input.showPassword}
+              aria-controls={inputId}
+              onMouseDown={(event) => event.preventDefault()}
+              onClick={() => setIsPasswordVisible((visible) => !visible)}
+            >
+              {isPasswordVisible ? <FiEyeOff aria-hidden="true" /> : <FiEye aria-hidden="true" />}
+            </VisibilityButton>
+          )}
+        </InputControl>
         {message && (
           <Message id={messageId} $error={Boolean(error)} role={error ? 'alert' : undefined}>
             {message}
