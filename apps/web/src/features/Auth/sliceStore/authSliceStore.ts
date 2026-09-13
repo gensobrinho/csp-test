@@ -1,40 +1,25 @@
-import { SetCallback } from "../../../shared/store";
-import { TAuthUser } from "../types/TAuthUser";
-import { Storage } from '../../../shared/utils/storage';
-
-const AUTH_STORAGE_KEY = 'auth_token';  
+import type { SetCallback } from '../../../shared/store';
+import type { AuthSession } from '../types/IAuthRepository';
+import type { TAuthUser } from '../types/TAuthUser';
 
 export interface IAuthInitialState {
   user: TAuthUser | null;
+  token: string | null;
   isHydrated: boolean;
 }
 
 export const initialState: IAuthInitialState = {
   user: null,
+  token: null,
   isHydrated: false,
 };
 
 const actions = (set: SetCallback<IAuthInitialState>) => ({
-  setToken: (user: TAuthUser | null) => set((state) => {
-    state.user = user;
-    if(user) {
-        Storage.setItem(AUTH_STORAGE_KEY, user.id);
-    } else {
-        Storage.removeItem(AUTH_STORAGE_KEY);
-    }
-  }),
-
-  hydrateAuth: () => set((state) => {
-    const raw = sessionStorage.getItem(AUTH_STORAGE_KEY);
-    state.user = raw ? JSON.parse(raw) : null;
+  setSession: (session: AuthSession | null) => set((state) => {
+    state.user = session?.user ?? null;
+    state.token = session?.token ?? null;
     state.isHydrated = true;
   }),
-
-  logout: () => set((state) => {
-    state.user = null;
-    Storage.removeItem(AUTH_STORAGE_KEY);
-  }),
-
   resetAuthSlice: () => set(initialState),
 });
 

@@ -15,3 +15,10 @@ export const EXAMPLE_API = {
     GET_TOKEN: '/token',
   },
 };
+
+export const AUTH_API = {
+  ENTRY_POINTS: {
+    POST_LOGIN: '/auth/login',
+    GET_USER_INFO: '/auth/me',
+  },
+} as const;

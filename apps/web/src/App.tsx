@@ -1,21 +1,21 @@
-import { useEffect } from "react";
-import { IAuthActions, IAuthInitialState } from "./features/Auth";
-import { useSliceSetter, useSliceState } from "./shared/hooks";
-import { AppRouter } from "./_app/router/AppRouter";
+import { BoxContent } from '@shared/components';
+import TEXTS from '@shared/i18n';
+import { usePersistSession } from './features/Auth/hooks/usePersistSession';
+import { AppRouter } from './_app/router/AppRouter';
 
 function App() {
-  const isHydrated = useSliceState<IAuthInitialState, 'isHydrated'>('isHydrated');
-  const hydrateAuth = useSliceSetter<IAuthActions, 'hydrateAuth'>('hydrateAuth');
+  const { isLoading, error } = usePersistSession();
 
-  useEffect(() => {
-    hydrateAuth();
-  }, [hydrateAuth]);
-
-  if (!isHydrated) {
-    return null;
+  if (isLoading) {
+    return <BoxContent role="status" center pad={24}>{TEXTS.auth.restoringSession}</BoxContent>;
   }
 
-  return <AppRouter />;
+  return (
+    <>
+      {error && <BoxContent role="alert" pad={16}>{error}</BoxContent>}
+      <AppRouter />
+    </>
+  );
 }
 
 export default App;

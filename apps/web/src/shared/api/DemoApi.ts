@@ -11,7 +11,7 @@ class DemoApi extends BaseApiInstance {
     this.axiosInstance.interceptors.request.use(
       (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
         const token = sessionStorage.getItem('auth_token');
-        if (token) {
+        if (token && !config.headers.has('Authorization')) {
           config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
