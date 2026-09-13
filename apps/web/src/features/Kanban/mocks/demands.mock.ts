@@ -29,7 +29,7 @@ function buildDemands(
   });
 }
 
-export const MOCK_DEMANDS: TDemand[] = [
+export const demandsStore: TDemand[] = [
   ...buildDemands('not_started', [
     'Implementar tela de login',
     'Criar layout do dashboard',
@@ -71,7 +71,7 @@ export const MOCK_DEMANDS: TDemand[] = [
     'Revisar textos de i18n',
     'Checar contraste das colunas',
   ], 18),
-  ...buildDemands('completed', [
+  ...buildDemands('in_production', [
     'Setup do monorepo',
     'Tema Emotion base',
     'Componente Button',

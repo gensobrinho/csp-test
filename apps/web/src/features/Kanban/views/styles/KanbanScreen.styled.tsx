@@ -21,6 +21,15 @@ export const KanbanHeader = styled.header({
   flexShrink: 0,
 });
 
+export const HeaderActions = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 12,
+  flex: '1 1 320px',
+  justifyContent: 'flex-end',
+  flexWrap: 'wrap',
+});
+
 export const KanbanTitle = styled.h1(({ theme }) => ({
   margin: 0,
   fontSize: 32,
@@ -36,6 +45,13 @@ export const SearchField = styled.div({
   flex: '1 1 240px',
 });
 
+export const BoardFeedback = styled.p(({ theme }) => ({
+  margin: 0,
+  color: theme.colors.default.danger,
+  fontSize: 14,
+  fontWeight: 500,
+}));
+
 export const Board = styled.div({
   display: 'flex',
   alignItems: 'stretch',
@@ -49,7 +65,8 @@ export const Board = styled.div({
 export const ColumnRoot = styled.section<{
   $background: string;
   $borderColor?: string;
-}>(({ $background, $borderColor }) => ({
+  $isDragOver?: boolean;
+}>(({ $background, $borderColor, $isDragOver }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: 12,
@@ -61,6 +78,9 @@ export const ColumnRoot = styled.section<{
   borderRadius: 12,
   backgroundColor: $background,
   border: $borderColor ? `1px solid ${$borderColor}` : '1px solid transparent',
+  outline: $isDragOver ? '2px dashed rgba(27, 58, 75, 0.35)' : 'none',
+  outlineOffset: -2,
+  transition: 'outline-color 120ms ease',
 }));
 
 export const ColumnHeader = styled.div({
@@ -159,7 +179,7 @@ export const LoadMoreButton = styled.button(({ theme }) => {
   };
 });
 
-export const CardRoot = styled.article(({ theme }) => ({
+export const CardRoot = styled.article<{ $draggable?: boolean }>(({ theme, $draggable }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: 12,
@@ -169,6 +189,15 @@ export const CardRoot = styled.article(({ theme }) => ({
   backgroundColor: theme.colors.default.surface,
   border: `1px solid ${theme.colors.default.border}`,
   boxShadow: '0 1px 2px rgba(27, 58, 75, 0.06)',
+  cursor: $draggable ? 'grab' : 'pointer',
+  userSelect: $draggable ? 'none' : 'auto',
+  WebkitUserDrag: $draggable ? 'element' : 'auto',
+  '&:active': {
+    cursor: $draggable ? 'grabbing' : 'pointer',
+  },
+  '&[draggable="true"]:hover': {
+    boxShadow: '0 2px 8px rgba(27, 58, 75, 0.12)',
+  },
 }));
 
 export const CardTop = styled.div({
@@ -242,7 +271,8 @@ export const Avatar = styled.span(({ theme }) => ({
 export const StatusPill = styled.span<{ $background: string }>(({ theme, $background }) => ({
   display: 'inline-flex',
   alignItems: 'center',
-  minWidth: 0,
+  alignSelf: 'flex-start',
+  width: 'fit-content',
   maxWidth: '100%',
   height: 22,
   padding: '0 8px',
@@ -263,12 +293,17 @@ export const Deadline = styled.span(({ theme }) => ({
   gap: 4,
   height: 22,
   flexShrink: 0,
-  color: theme.colors.default.secondaryText,
+  color: theme.colors.default.accentHover,
   fontSize: 11,
-  fontWeight: 500,
+  fontWeight: 400,
   lineHeight: 1,
   whiteSpace: 'nowrap',
-  svg: { width: 14, height: 14, flexShrink: 0 },
+  svg: {
+    width: 14,
+    height: 14,
+    flexShrink: 0,
+    color: theme.colors.default.primaryText,
+  },
 }));
 
 export const EmptyColumnMessage = styled.p(({ theme }) => ({

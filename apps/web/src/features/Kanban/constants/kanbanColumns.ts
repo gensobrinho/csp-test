@@ -38,9 +38,11 @@ export const KANBAN_COLUMNS: TKanbanColumnConfig[] = [
     dotColor: '#D4A017',
   },
   {
-    status: 'completed',
-    title: TEXTS.kanban.columns.completed,
+    status: 'in_production',
+    title: TEXTS.kanban.columns.inProduction,
     background: colors.lightGreen,
     dotColor: '#3D9B6C',
   },
 ];
+
+export const DEMAND_DRAG_MIME = 'application/x-csp-demand';

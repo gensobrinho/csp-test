@@ -3,6 +3,8 @@ export { default as Divider } from './Divider/Divider';
 
 export { default as Button } from './Button/Button';
 export type { ButtonProps } from './Button/Button';
+export { default as Drawer } from './Drawer/Drawer';
+export type { DrawerProps } from './Drawer/Drawer';
 export { default as Input } from './Input/Input';
 export type { InputProps } from './Input/Input';
 export { default as InputWithIcon } from './InputWithIcon/InputWithIcon';

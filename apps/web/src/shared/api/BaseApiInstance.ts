@@ -35,6 +35,10 @@ abstract class BaseApiInstance {
     return this.axiosInstance.put<T>(url, data, config);
   }
 
+  public patch<T>(url: string, data?: unknown, config: AxiosRequestConfig = {}): Promise<AxiosResponse<T>> {
+    return this.axiosInstance.patch<T>(url, data, config);
+  }
+
   public delete<T>(url: string, config: AxiosRequestConfig = {}): Promise<AxiosResponse<T>> {
     return this.axiosInstance.delete<T>(url, config);
   }

@@ -16,6 +16,12 @@ export type TPaginatedDemands = {
   hasMore: boolean;
 };
 
+export type TUpdateDemandPayload = {
+  status: TDemandStatus;
+};
+
 export interface IKanbanRepository {
   getDemands(params: TGetDemandsParams): Promise<TPaginatedDemands>;
+  getDemandById(id: string): Promise<TDemand>;
+  updateDemand(id: string, payload: TUpdateDemandPayload): Promise<TDemand>;
 }

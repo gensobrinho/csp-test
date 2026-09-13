@@ -5,13 +5,19 @@ import { APP_NAV_ITEMS } from './navItems';
 
 const LayoutRoot = styled.div({
   display: 'flex',
-  minHeight: '100vh',
+  height: '100vh',
   width: '100%',
+  overflow: 'hidden',
 });
 
 const MainArea = styled.div(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
   flex: 1,
   minWidth: 0,
+  minHeight: 0,
+  height: '100%',
+  overflow: 'hidden',
   backgroundColor: theme.colors.default.surface,
 }));
 

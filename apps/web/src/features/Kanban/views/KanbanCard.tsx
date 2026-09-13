@@ -1,7 +1,9 @@
+import { useRef, type DragEvent } from 'react';
 import TEXTS from '@shared/i18n';
 import { FiCalendar, FiMoreVertical } from 'react-icons/fi';
+import { DEMAND_DRAG_MIME } from '../constants/kanbanColumns';
 import type { TDemand } from '../types/TDemand';
-import type { TDemandStatus } from '../types/TDemandStatus';
+import { serializeDemandDragPayload } from '../utils/demandDrag';
 import {
   Avatar,
   CardMenuButton,
@@ -11,7 +13,6 @@ import {
   CardTitle,
   CardTop,
   Deadline,
-  StatusPill,
 } from './styles/KanbanScreen.styled';
 
 function getInitials(name: string) {
@@ -31,34 +32,71 @@ function formatDeadline(deadline: string) {
   return new Intl.DateTimeFormat('pt-BR').format(date);
 }
 
-const STATUS_LABELS: Record<TDemandStatus, string> = {
-  not_started: TEXTS.kanban.columns.notStarted,
-  in_progress: TEXTS.kanban.columns.inProgress,
-  paused: TEXTS.kanban.columns.paused,
-  in_homologation: TEXTS.kanban.columns.inHomologation,
-  completed: TEXTS.kanban.columns.completed,
-};
-
 export interface KanbanCardProps {
   demand: TDemand;
-  statusBackground: string;
+  canDrag?: boolean;
+  onOpen?: (demandId: string) => void;
 }
 
-export default function KanbanCard({ demand, statusBackground }: KanbanCardProps) {
+export default function KanbanCard({
+  demand,
+  canDrag = false,
+  onOpen,
+}: KanbanCardProps) {
+  const didDragRef = useRef(false);
+
+  const handleDragStart = (event: DragEvent<HTMLElement>) => {
+    if (!canDrag) {
+      event.preventDefault();
+      return;
+    }
+
+    didDragRef.current = true;
+    const payload = serializeDemandDragPayload({
+      demandId: demand.id,
+      fromStatus: demand.status,
+      title: demand.title,
+    });
+
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData(DEMAND_DRAG_MIME, payload);
+    event.dataTransfer.setData('text/plain', payload);
+  };
+
+  const handleDragEnd = () => {
+    window.setTimeout(() => {
+      didDragRef.current = false;
+    }, 0);
+  };
+
   return (
-    <CardRoot>
+    <CardRoot
+      draggable={canDrag}
+      $draggable={canDrag}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onClick={() => {
+        if (didDragRef.current) {
+          return;
+        }
+        onOpen?.(demand.id);
+      }}
+    >
       <CardTop>
         <CardTitle>{demand.title}</CardTitle>
-        <CardMenuButton type="button" aria-label={TEXTS.kanban.cardMenu}>
+        <CardMenuButton
+          type="button"
+          draggable={false}
+          aria-label={TEXTS.kanban.cardMenu}
+          onClick={(event) => event.stopPropagation()}
+          onMouseDown={(event) => event.stopPropagation()}
+        >
           <FiMoreVertical aria-hidden="true" />
         </CardMenuButton>
       </CardTop>
       <CardMeta>
         <CardMetaLeft>
           <Avatar aria-hidden="true">{getInitials(demand.responsibleName)}</Avatar>
-          <StatusPill $background={statusBackground}>
-            {STATUS_LABELS[demand.status]}
-          </StatusPill>
         </CardMetaLeft>
         <Deadline>
           <FiCalendar aria-hidden="true" />

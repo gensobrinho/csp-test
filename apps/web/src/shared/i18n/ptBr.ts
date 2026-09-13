@@ -3,6 +3,9 @@ const PT_BR = {
     showPassword: 'Mostrar senha',
     hidePassword: 'Ocultar senha',
   },
+  drawer: {
+    close: 'Fechar',
+  },
   sidebar: {
     brand: 'CSP Tech',
     navigation: 'Navegação principal',
@@ -20,11 +23,28 @@ const PT_BR = {
     demandsTitle: 'Demandas',
     usersTitle: 'Usuários',
   },
+  demands: {
+    createTitle: 'Cadastro de Demanda',
+    detailsTitle: 'Detalhes da Demanda',
+    detailsId: 'ID',
+    closeDetails: 'Fechar detalhes',
+    loadingDetails: 'Carregando detalhes...',
+    edit: 'Editar',
+    delete: 'Excluir',
+    fields: {
+      title: 'Título',
+      responsible: 'Responsável',
+      status: 'Status',
+      deadline: 'Prazo',
+      description: 'Descrição',
+    },
+  },
   kanban: {
     title: 'Kanban',
     searchLabel: 'Buscar demandas',
     searchPlaceholder: 'Buscar demandas...',
     searchAriaLabel: 'Buscar',
+    newDemand: 'Nova Demanda',
     loadMore: 'Ver mais',
     loadingMore: 'Carregando...',
     emptyColumn: 'Nenhuma demanda',
@@ -35,7 +55,11 @@ const PT_BR = {
       inProgress: 'Em andamento',
       paused: 'Pausada',
       inHomologation: 'Em homologação',
-      completed: 'Concluída',
+      inProduction: 'Em produção',
+    },
+    errors: {
+      lockedStatus: 'Demandas em produção não podem mudar de status.',
+      moveFailed: 'Não foi possível atualizar o status da demanda.',
     },
   },
   auth: {
