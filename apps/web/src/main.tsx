@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from './shared/theme';
 import App from './App';
-import '@fontsource-variable/inter/latin.css';
+import '@fontsource-variable/inter';
 import './index.css';
 
 createRoot(document.getElementById('root') as HTMLElement).render(
