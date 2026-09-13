@@ -9,6 +9,15 @@ export type TTextStyle = {
 };
 
 export type TColors = {
+    surface: string;
+    accent: string;
+    accentHover: string;
+    accentBorder: string;
+    accentSurface: string;
+    focus: string;
+    danger: string;
+    dangerSurface: string;
+    disabledBg: string;
     bg: string;
     primary: string;
     primaryText: string;

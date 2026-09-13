@@ -3,6 +3,15 @@ import { TTheme } from './TTheme';
 export const theme: TTheme = {
   colors: {
     default: {
+      surface: '#FFFFFF',
+      accent: '#C4F500',
+      accentHover: '#B4E000',
+      accentBorder: '#C7DF87',
+      accentSurface: '#F5FBDD',
+      focus: '#587516',
+      danger: '#B4232C',
+      dangerSurface: '#FFF1F2',
+      disabledBg: '#EEF1F4',
       bg: '#F4F7F9',
       primary: '#1B3A4B',
       primaryText: '#1B3A4B',
@@ -16,6 +25,15 @@ export const theme: TTheme = {
     },
 
     light: {
+      surface: '#FFFFFF',
+      accent: '#C4F500',
+      accentHover: '#B4E000',
+      accentBorder: '#C7DF87',
+      accentSurface: '#F5FBDD',
+      focus: '#587516',
+      danger: '#B4232C',
+      dangerSurface: '#FFF1F2',
+      disabledBg: '#EEF1F4',
       bg: '#F4F7F9',
       primary: '#1B3A4B',
       primaryText: '#1B3A4B',
@@ -29,6 +47,15 @@ export const theme: TTheme = {
     },
 
     dark: {
+      surface: '#FFFFFF',
+      accent: '#C4F500',
+      accentHover: '#B4E000',
+      accentBorder: '#C7DF87',
+      accentSurface: '#F5FBDD',
+      focus: '#587516',
+      danger: '#B4232C',
+      dangerSurface: '#FFF1F2',
+      disabledBg: '#EEF1F4',
       bg: '#F4F7F9',
       primary: '#1B3A4B',
       primaryText: '#1B3A4B',
