@@ -7,7 +7,7 @@ import { useLogin } from '../hooks/useLogin';
 import { RoutesEnum } from '../../../_app/types/RoutesEnum';
 import { LoginPage, LoginCard, LoginTitle, LoginForm } from './styles/Login.styled';
 
-const Login = () => {
+const LoginScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { user } = useAuthState();
@@ -62,4 +62,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginScreen;

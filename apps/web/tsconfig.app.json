@@ -21,6 +21,7 @@
       "@/*": ["./*"],
       "@src": ["./src"],
       "@assets": ["./assets"],
+      "@shared/*": ["./src/shared/*"],
       "@shared": ["./src/shared/index.ts"],
       "@shared/i18n": ["./src/shared/i18n/index.ts"],
       "@shared/hooks": ["./src/shared/hooks/index.ts"],
@@ -35,5 +36,5 @@
       "@features/*": ["./src/features/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "jest.setup.ts"]
 }
