@@ -11,3 +11,5 @@ export { default as InputWithIcon } from './InputWithIcon/InputWithIcon';
 export type { InputWithIconProps } from './InputWithIcon/InputWithIcon';
 export { default as Sidebar } from './Sidebar/Sidebar';
 export type { SidebarNavItem, SidebarProps } from './Sidebar/Sidebar';
+export { default as Spinner } from './Spinner/Spinner';
+export type { SpinnerProps } from './Spinner/Spinner';

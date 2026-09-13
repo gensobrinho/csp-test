@@ -1,4 +1,5 @@
 import { useState, type DragEvent } from 'react';
+import { Spinner } from '@shared/components';
 import TEXTS from '@shared/i18n';
 import type { TDemand } from '../types/TDemand';
 import type { TDemandStatus } from '../types/TDemandStatus';
@@ -102,7 +103,9 @@ export default function KanbanColumn({
       </ColumnHeader>
 
       <ColumnBody onDragOver={allowDrop} onDrop={handleDrop}>
-        {data.length === 0 && !loading ? (
+        {loading && data.length === 0 ? (
+          <Spinner centered />
+        ) : data.length === 0 ? (
           <EmptyColumnMessage>{TEXTS.kanban.emptyColumn}</EmptyColumnMessage>
         ) : (
           data.map((demand) => (
@@ -118,7 +121,7 @@ export default function KanbanColumn({
 
       {hasMore && (
         <LoadMoreButton type="button" disabled={loading} onClick={onLoadMore}>
-          {loading ? TEXTS.kanban.loadingMore : TEXTS.kanban.loadMore}
+          {loading ? <Spinner size={16} /> : TEXTS.kanban.loadMore}
         </LoadMoreButton>
       )}
     </ColumnRoot>

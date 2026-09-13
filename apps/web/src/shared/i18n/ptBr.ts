@@ -6,6 +6,9 @@ const PT_BR = {
   drawer: {
     close: 'Fechar',
   },
+  spinner: {
+    loading: 'Carregando',
+  },
   sidebar: {
     brand: 'CSP Tech',
     navigation: 'Navegação principal',
@@ -28,7 +31,6 @@ const PT_BR = {
     detailsTitle: 'Detalhes da Demanda',
     detailsId: 'ID',
     closeDetails: 'Fechar detalhes',
-    loadingDetails: 'Carregando detalhes...',
     edit: 'Editar',
     delete: 'Excluir',
     fields: {
@@ -46,7 +48,6 @@ const PT_BR = {
     searchAriaLabel: 'Buscar',
     newDemand: 'Nova Demanda',
     loadMore: 'Ver mais',
-    loadingMore: 'Carregando...',
     emptyColumn: 'Nenhuma demanda',
     cardMenu: 'Opções da demanda',
     demandsCount: 'demandas',

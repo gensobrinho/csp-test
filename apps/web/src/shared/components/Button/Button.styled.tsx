@@ -1,10 +1,5 @@
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
 import type { ButtonProps } from './Button';
-
-const spin = keyframes`
-  to { transform: rotate(360deg); }
-`;
 
 export const StyledButton = styled.button<{
   $variant: NonNullable<ButtonProps['variant']>;
@@ -69,15 +64,4 @@ export const StyledButton = styled.button<{
     },
     '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
   };
-});
-
-export const Spinner = styled.span({
-  width: 14,
-  height: 14,
-  flexShrink: 0,
-  border: '2px solid currentColor',
-  borderRightColor: 'transparent',
-  borderRadius: '50%',
-  animation: `${spin} 700ms linear infinite`,
-  '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
 });

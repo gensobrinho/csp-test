@@ -1,5 +1,6 @@
 import { forwardRef, type ComponentPropsWithoutRef } from 'react';
-import { Spinner, StyledButton } from './Button.styled';
+import Spinner from '../Spinner/Spinner';
+import { StyledButton } from './Button.styled';
 
 export interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
   variant?: 'primary' | 'secondary' | 'danger';
@@ -18,7 +19,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       $variant={variant}
       $fullWidth={fullWidth}
     >
-      {isLoading && <Spinner aria-hidden="true" />}
+      {isLoading && <Spinner size={14} aria-hidden />}
       {children}
     </StyledButton>
   ),

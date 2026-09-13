@@ -1,5 +1,5 @@
 import { FiCalendar, FiEdit2, FiTrash2 } from 'react-icons/fi';
-import { Button, Drawer } from '@shared/components';
+import { Button, Drawer, Spinner } from '@shared/components';
 import TEXTS from '@shared/i18n';
 import { KANBAN_COLUMNS } from '../constants/kanbanColumns';
 import { useDemandDetails } from '../hooks/useDemandDetails';
@@ -72,7 +72,7 @@ export default function DemandDetailsDrawer({ demandId, onClose }: DemandDetails
       )}
     >
       {isLoading || !demand ? (
-        <DetailsDescription>{TEXTS.demands.loadingDetails}</DetailsDescription>
+        <Spinner centered size={24} />
       ) : (
         <>
           <DetailsField>
