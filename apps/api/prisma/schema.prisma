@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  agilist
+  developer
+}
+
+enum DemandStatus {
+  not_started
+  in_progress
+  paused
+  in_homologation
+  in_production
+}
+
+model User {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  name         String
+  passwordHash String
+  role         Role
+  demands      Demand[] @relation("Responsible")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Demand {
+  id            String       @id @default(uuid())
+  title         String
+  description   String
+  deadline      DateTime     @db.Date
+  status        DemandStatus @default(not_started)
+  responsibleId String
+  responsible   User         @relation("Responsible", fields: [responsibleId], references: [id])
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
