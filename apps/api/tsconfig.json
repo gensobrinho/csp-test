@@ -4,16 +4,16 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "outDir": "./dist",
-    "rootDir": "./src",
-    "strict": true, 
+    "rootDir": ".",
+    "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "sourceMap": true, // Helpful for debugging
-    "resolveJsonModule": true, // Let's you import .json files
-    "noImplicitReturns": true, // Forces better logic flow
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*"],
+  "include": ["server.ts", "src/**/*", "prisma/seed.ts"],
   "exclude": ["node_modules", "dist"]
 }
