@@ -18,7 +18,7 @@ const MainArea = styled.div(({ theme }) => ({
   minHeight: 0,
   height: '100%',
   overflow: 'hidden',
-  backgroundColor: theme.colors.default.surface,
+  backgroundColor: theme.colors.default.bg,
 }));
 
 export function AppLayout() {

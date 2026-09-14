@@ -7,11 +7,10 @@ export const DetailsField = styled.div({
 });
 
 export const DetailsFieldLabel = styled.span(({ theme }) => ({
-  fontSize: 12,
+  fontSize: 14,
   fontWeight: 600,
-  color: theme.colors.default.secondaryText,
-  textTransform: 'uppercase',
-  letterSpacing: '0.02em',
+  color: theme.colors.default.primaryText,
+  lineHeight: 1.5,
 }));
 
 export const DetailsTitleValue = styled.p(({ theme }) => ({
@@ -29,6 +28,22 @@ export const DetailsResponsible = styled.div(({ theme }) => ({
   fontSize: 14,
   fontWeight: 500,
   color: theme.colors.default.primaryText,
+}));
+
+export const DetailsDeadline = styled.span(({ theme }) => ({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 8,
+  color: theme.colors.default.accentHover,
+  fontSize: 14,
+  fontWeight: 500,
+  lineHeight: 1.4,
+  svg: {
+    width: 16,
+    height: 16,
+    flexShrink: 0,
+    color: theme.colors.default.primaryText,
+  },
 }));
 
 export const DetailsDescription = styled.p(({ theme }) => ({

@@ -1,19 +1,21 @@
 import { FiCalendar, FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 import { Button, Drawer, Spinner } from '@shared/components';
 import TEXTS from '@shared/i18n';
+import { getInitials } from '@/src/shared/utils/helperFunctions';
 import { useDemandDetails } from '../hooks/useDemandDetails';
 import type { TDemandStatus } from '../types/TDemandStatus';
-import { Avatar, Deadline, StatusPill } from './styles/KanbanScreen.styled';
+import { formatDeadline, getStatusBackground } from '../utils/helperFunctions';
+import { Avatar, StatusPill } from './styles/KanbanScreen.styled';
 import {
   DetailsActions,
+  DetailsDeadline,
   DetailsDescription,
   DetailsField,
   DetailsFieldLabel,
   DetailsResponsible,
   DetailsTitleValue,
 } from './styles/DemandDetailsDrawer.styled';
-import { getInitials } from '@/src/shared/utils/helperFunctions';
-import { formatDeadline, getStatusBackground } from '../utils/helperFunctions';
 
 const STATUS_LABELS: Record<TDemandStatus, string> = {
   not_started: TEXTS.kanban.columns.notStarted,
@@ -22,13 +24,23 @@ const STATUS_LABELS: Record<TDemandStatus, string> = {
   in_homologation: TEXTS.kanban.columns.inHomologation,
   in_production: TEXTS.kanban.columns.inProduction,
 };
+
 export interface DemandDetailsDrawerProps {
   demandId: string | null;
   onClose: () => void;
 }
 
 export default function DemandDetailsDrawer({ demandId, onClose }: DemandDetailsDrawerProps) {
+  const navigate = useNavigate();
   const { demand, isLoading } = useDemandDetails(demandId);
+
+  const handleEdit = () => {
+    if (!demandId) {
+      return;
+    }
+    onClose();
+    navigate(`/demandas/${demandId}/editar`);
+  };
 
   return (
     <Drawer
@@ -38,7 +50,7 @@ export default function DemandDetailsDrawer({ demandId, onClose }: DemandDetails
       closeAriaLabel={TEXTS.demands.closeDetails}
       footer={(
         <DetailsActions>
-          <Button variant="secondary" type="button">
+          <Button variant="secondary" type="button" onClick={handleEdit}>
             <FiEdit2 aria-hidden="true" />
             {TEXTS.demands.edit}
           </Button>
@@ -75,10 +87,10 @@ export default function DemandDetailsDrawer({ demandId, onClose }: DemandDetails
 
           <DetailsField>
             <DetailsFieldLabel>{TEXTS.demands.fields.deadline}</DetailsFieldLabel>
-            <Deadline>
+            <DetailsDeadline>
               <FiCalendar aria-hidden="true" />
               <span>{formatDeadline(demand.deadline)}</span>
-            </Deadline>
+            </DetailsDeadline>
           </DetailsField>
 
           <DetailsField>

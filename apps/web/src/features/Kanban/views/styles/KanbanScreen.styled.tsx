@@ -9,7 +9,7 @@ export const KanbanPage = styled.main(({ theme }) => ({
   minHeight: 0,
   padding: 32,
   overflow: 'hidden',
-  backgroundColor: theme.colors.default.surface,
+  backgroundColor: theme.colors.default.bg,
 }));
 
 export const KanbanHeader = styled.header({

@@ -6,8 +6,20 @@ const PT_BR = {
   drawer: {
     close: 'Fechar',
   },
+  dialog: {
+    close: 'Fechar',
+  },
   spinner: {
     loading: 'Carregando',
+  },
+  common: {
+    home: 'Home',
+    cancel: 'Cancelar',
+    save: 'Salvar',
+    new: 'Novo',
+    edit: 'Editar',
+    delete: 'Excluir',
+    confirm: 'Confirmar',
   },
   sidebar: {
     brand: 'CSP Tech',
@@ -26,19 +38,57 @@ const PT_BR = {
     demandsTitle: 'Demandas',
     usersTitle: 'Usuários',
   },
+  users: {
+    createTitle: 'Cadastro de Usuário',
+    editTitle: 'Editar Usuário',
+    detailsTitle: 'Detalhes do Usuário',
+    closeDetails: 'Fechar detalhes',
+    newUser: 'Novo Usuário',
+    edit: 'Editar',
+    delete: 'Excluir',
+    emptyList: 'Nenhum usuário cadastrado',
+    deleteDialog: {
+      title: 'Excluir usuário',
+      description: 'Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.',
+    },
+    fields: {
+      name: 'Nome',
+      profile: 'Perfil',
+      password: 'Senha',
+    },
+    placeholders: {
+      name: 'Digite o nome do usuário',
+      profile: 'Selecione o perfil',
+      password: 'Digite a senha',
+      passwordEdit: 'Deixe em branco para manter a senha atual',
+    },
+    errors: {
+      saveFailed: 'Não foi possível salvar o usuário.',
+      deleteFailed: 'Não foi possível excluir o usuário.',
+    },
+  },
+
   demands: {
     createTitle: 'Cadastro de Demanda',
+    editTitle: 'Editar Demanda',
     detailsTitle: 'Detalhes da Demanda',
     detailsId: 'ID',
     closeDetails: 'Fechar detalhes',
     edit: 'Editar',
     delete: 'Excluir',
+    openDeadlineCalendar: 'Abrir calendário do prazo',
     fields: {
       title: 'Título',
       responsible: 'Responsável',
       status: 'Status',
       deadline: 'Prazo',
       description: 'Descrição',
+    },
+    placeholders: {
+      title: 'Digite o título da demanda',
+      responsible: 'Selecione o responsável',
+      deadline: 'dd/mm/aaaa',
+      description: 'Descreva os detalhes da demanda',
     },
   },
   kanban: {

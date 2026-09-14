@@ -1,8 +1,9 @@
 import LoginScreen from '@/src/features/Auth/views/LoginScreen';
-import DemandCreateScreen from '@/src/features/Demand/views/DemandCreateScreen';
+import DemandFormScreen from '@/src/features/Demand/views/DemandFormScreen';
 import DemandScreen from '@/src/features/Demand/views/DemandScreen';
 import Home from '@features/Home/views/Home';
 import KanbanScreen from '@/src/features/Kanban/views/KanbanScreen';
+import UserCreateScreen from '@/src/features/User/views/UserCreateScreen';
 import UserScreen from '@/src/features/User/views/UserScreen';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -27,8 +28,11 @@ export function AppRouter() {
             <Route element={<AppLayout />}>
               <Route path={RoutesEnum.HOME} element={<Home />} />
               <Route path={RoutesEnum.KANBAN} element={<KanbanScreen />} />
-              <Route path={RoutesEnum.DEMAND_CREATE} element={<DemandCreateScreen />} />
+              <Route path={RoutesEnum.DEMAND_CREATE} element={<DemandFormScreen />} />
+              <Route path={RoutesEnum.DEMAND_EDIT} element={<DemandFormScreen />} />
               <Route path={RoutesEnum.DEMANDS} element={<DemandScreen />} />
+              <Route path={RoutesEnum.USER_CREATE} element={<UserCreateScreen />} />
+              <Route path={RoutesEnum.USER_EDIT} element={<UserCreateScreen />} />
               <Route path={RoutesEnum.USERS} element={<UserScreen />} />
             </Route>
           </Route>

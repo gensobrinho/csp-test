@@ -9,16 +9,18 @@ import {
   IconButton,
   InputControl,
   Label,
+  RequiredMark,
   StyledInput,
   VisuallyHidden,
 } from './InputWithIcon.styled';
 
-export interface InputWithIconProps extends Omit<ComponentPropsWithoutRef<'input'>, 'type'> {
+export interface InputWithIconProps extends ComponentPropsWithoutRef<'input'> {
   label: string;
   hideLabel?: boolean;
   icon: ReactNode;
   iconAriaLabel: string;
   onIconClick?: () => void;
+  error?: string;
 }
 
 const InputWithIcon = forwardRef<HTMLInputElement, InputWithIconProps>(
@@ -30,6 +32,9 @@ const InputWithIcon = forwardRef<HTMLInputElement, InputWithIconProps>(
     onIconClick,
     id,
     disabled,
+    required,
+    type = 'text',
+    error,
     ...props
   }, ref) => {
     const generatedId = useId();
@@ -39,18 +44,26 @@ const InputWithIcon = forwardRef<HTMLInputElement, InputWithIconProps>(
       <Field>
         {hideLabel ? (
           <VisuallyHidden>
-            <Label htmlFor={inputId}>{label}</Label>
+            <Label htmlFor={inputId}>
+              {label}
+              {required && <RequiredMark aria-hidden="true"> *</RequiredMark>}
+            </Label>
           </VisuallyHidden>
         ) : (
-          <Label htmlFor={inputId}>{label}</Label>
+          <Label htmlFor={inputId}>
+            {label}
+            {required && <RequiredMark aria-hidden="true"> *</RequiredMark>}
+          </Label>
         )}
         <InputControl fit>
           <StyledInput
             {...props}
             ref={ref}
             id={inputId}
-            type="text"
+            type={type}
+            required={required}
             disabled={disabled}
+            aria-invalid={error ? true : props['aria-invalid']}
           />
           <IconButton
             type="button"

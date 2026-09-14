@@ -15,9 +15,9 @@ export const StyledButton = styled.button<{
     },
     secondary: {
       background: colors.surface,
-      border: colors.accentBorder,
+      border: colors.border,
       text: colors.primaryText,
-      hover: colors.accentSurface,
+      hover: colors.disabledBg,
     },
     danger: {
       background: colors.surface,
@@ -37,7 +37,7 @@ export const StyledButton = styled.button<{
     minHeight: 40,
     width: $fullWidth ? '100%' : 'auto',
     padding: '10px 18px',
-    borderRadius: 6,
+    borderRadius: 8,
     border: `1px solid ${variant.border}`,
     backgroundColor: variant.background,
     color: variant.text,

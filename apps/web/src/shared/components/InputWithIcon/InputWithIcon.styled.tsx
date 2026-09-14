@@ -16,6 +16,10 @@ export const Label = styled.label(({ theme }) => ({
   lineHeight: 1.5,
 }));
 
+export const RequiredMark = styled.span(({ theme }) => ({
+  color: theme.colors.default.danger,
+}));
+
 export const VisuallyHidden = styled.span({
   position: 'absolute',
   width: 1,
@@ -31,6 +35,8 @@ export const VisuallyHidden = styled.span({
 export const InputControl = styled(BoxContent)({
   position: 'relative',
   width: '100%',
+  maxWidth: '100%',
+  minWidth: 0,
 });
 
 export const StyledInput = styled.input(({ theme }) => {
@@ -38,9 +44,11 @@ export const StyledInput = styled.input(({ theme }) => {
 
   return {
     boxSizing: 'border-box',
+    position: 'relative',
     width: '100%',
+    maxWidth: '100%',
     minWidth: 0,
-    minHeight: 42,
+    minHeight: 44,
     padding: '10px 44px 10px 12px',
     border: `1px solid ${colors.border}`,
     borderRadius: 8,
@@ -50,6 +58,7 @@ export const StyledInput = styled.input(({ theme }) => {
     fontSize: 14,
     lineHeight: 1.5,
     transition: 'border-color 150ms ease',
+    colorScheme: 'light',
     '&::placeholder': { color: colors.secondaryText, opacity: 1 },
     '&:hover:not(:disabled)': { borderColor: colors.grey },
     '&:focus': {
@@ -61,6 +70,19 @@ export const StyledInput = styled.input(({ theme }) => {
       backgroundColor: colors.disabledBg,
       color: colors.secondaryText,
       cursor: 'not-allowed',
+    },
+    '&[type="date"]': {
+      display: 'block',
+    },
+    '&[type="date"]::-webkit-calendar-picker-indicator': {
+      position: 'absolute',
+      inset: 0,
+      width: '100%',
+      height: '100%',
+      margin: 0,
+      padding: 0,
+      opacity: 0,
+      cursor: 'pointer',
     },
     '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
   };
@@ -82,14 +104,6 @@ export const IconButton = styled.button(({ theme }) => ({
   background: 'transparent',
   color: theme.colors.default.secondaryText,
   cursor: 'pointer',
-  '&:hover:not(:disabled)': {
-    background: theme.colors.default.accentSurface,
-    color: theme.colors.default.primaryText,
-  },
-  '&:focus-visible': {
-    outline: `2px solid ${theme.colors.default.focus}`,
-    outlineOffset: 1,
-  },
-  '&:disabled': { cursor: 'not-allowed', opacity: 0.5 },
+  pointerEvents: 'none',
   svg: { width: 18, height: 18 },
 }));

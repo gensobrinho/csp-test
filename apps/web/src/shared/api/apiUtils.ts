@@ -29,3 +29,12 @@ export const KANBAN_API = {
     UPDATE_DEMAND: '/demands',
   },
 } as const;
+
+export const USER_API = {
+  ENTRY_POINTS: {
+    GET_USERS: '/users',
+    CREATE_USER: '/users',
+    UPDATE_USER: '/users',
+    DELETE_USER: '/users',
+  },
+} as const;
