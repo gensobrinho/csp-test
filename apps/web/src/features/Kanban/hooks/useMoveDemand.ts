@@ -47,10 +47,10 @@ export function useMoveDemand() {
       void queryClient.invalidateQueries({
         queryKey: [KanbanQueryEnum.getDemandsByStatus, variables.toStatus],
       });
+      void queryClient.invalidateQueries({ queryKey: [KanbanQueryEnum.getDemandsList] });
       void queryClient.invalidateQueries({
         queryKey: [KanbanQueryEnum.getDemandById, variables.id],
       });
-    },
     onError: (error) => {
       showKanbanErrorToast(getMoveErrorDescription(error));
     },
