@@ -72,3 +72,10 @@ export const FormActions = styled.div({
   minWidth: 0,
   maxWidth: '100%',
 });
+
+export const FormError = styled.p(({ theme }) => ({
+  margin: 0,
+  color: theme.colors.default.danger,
+  fontSize: 14,
+  lineHeight: 1.4,
+}));

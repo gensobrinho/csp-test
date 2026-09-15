@@ -12,29 +12,38 @@ import {
 } from '@shared/components';
 import TEXTS from '@shared/i18n';
 import { RoutesEnum } from '@/src/_app/types/RoutesEnum';
+import { useCreateDemand } from '@features/Kanban/hooks/useCreateDemand';
 import { useDemandDetails } from '@features/Kanban/hooks/useDemandDetails';
+import { useUpdateDemand } from '@features/Kanban/hooks/useUpdateDemand';
 import { useGetUsers } from '@features/User/hooks/useGetUsers';
 import {
   FormActions,
   FormCard,
+  FormError,
   FormFields,
   FormHeader,
   FormPage,
   FormTitle,
 } from './styles/DemandForm.styled';
 
+const RESPONSIBLE_ROLES = 'agilist,developer';
+
 export default function DemandFormScreen() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const isEdit = Boolean(id);
   const { demand, isLoading } = useDemandDetails(id ?? null);
-  const { users, isLoading: isLoadingUsers } = useGetUsers();
+  const { users, isLoading: isLoadingUsers } = useGetUsers({ role: RESPONSIBLE_ROLES });
+  const { createDemand, isCreating } = useCreateDemand();
+  const { updateDemand, isUpdating } = useUpdateDemand();
 
   const [title, setTitle] = useState('');
   const [responsibleId, setResponsibleId] = useState('');
   const [deadline, setDeadline] = useState('');
   const [description, setDescription] = useState('');
-  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const isSaving = isCreating || isUpdating;
 
   const responsibleOptions = useMemo(
     () => users.map((user) => ({ value: user.id, label: user.name })),
@@ -51,17 +60,31 @@ export default function DemandFormScreen() {
     setDescription(demand.description);
   }, [demand]);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!title.trim() || !responsibleId || !deadline || !description.trim()) {
       return;
     }
 
-    setIsSaving(true);
-    window.setTimeout(() => {
-      setIsSaving(false);
+    setError(null);
+
+    const payload = {
+      title: title.trim(),
+      responsibleId,
+      deadline,
+      description: description.trim(),
+    };
+
+    try {
+      if (isEdit && id) {
+        await updateDemand({ id, payload });
+      } else {
+        await createDemand(payload);
+      }
       navigate(RoutesEnum.KANBAN);
-    }, 300);
+    } catch {
+      setError(TEXTS.demands.errors.saveFailed);
+    }
   };
 
   const handleCancel = () => {
@@ -109,6 +132,11 @@ export default function DemandFormScreen() {
             onChange={(event) => setResponsibleId(event.target.value)}
             disabled={isLoadingUsers}
             required
+            error={
+              !isLoadingUsers && responsibleOptions.length === 0
+                ? TEXTS.demands.errors.userNotFound
+                : undefined
+            }
           />
 
           <InputWithIcon
@@ -128,6 +156,8 @@ export default function DemandFormScreen() {
             onChange={(event) => setDescription(event.target.value)}
             required
           />
+
+          {error && <FormError role="alert">{error}</FormError>}
         </FormFields>
 
         <FormActions>

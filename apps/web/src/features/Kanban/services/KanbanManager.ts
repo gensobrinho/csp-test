@@ -1,7 +1,10 @@
+import { getApiErrorId } from '../../../shared/api/apiError';
 import type {
   IKanbanRepository,
+  TCreateDemandPayload,
   TGetDemandsParams,
   TPaginatedDemands,
+  TUpdateDemandDetailsPayload,
   TUpdateDemandPayload,
 } from '../types/IKanbanRepository';
 import type { TDemand } from '../types/TDemand';
@@ -37,6 +40,21 @@ export class KanbanManager {
     return this.repository.getDemandById(id);
   }
 
+  createDemand(payload: TCreateDemandPayload): Promise<TDemand> {
+    return this.repository.createDemand(payload);
+  }
+
+  updateDemandDetails(
+    id: string,
+    payload: TUpdateDemandDetailsPayload,
+  ): Promise<TDemand> {
+    return this.repository.updateDemandDetails(id, payload);
+  }
+
+  deleteDemand(id: string): Promise<void> {
+    return this.repository.deleteDemand(id);
+  }
+
   async updateDemand(
     id: string,
     payload: TUpdateDemandPayload,
@@ -55,8 +73,7 @@ export class KanbanManager {
       if (error instanceof KanbanError) {
         throw error;
       }
-      const status = (error as { response?: { status?: number } })?.response?.status;
-      if (status === 400) {
+      if (getApiErrorId(error) === 'locked_status') {
         throw new KanbanError('lockedStatus');
       }
       throw new KanbanError('unknown');

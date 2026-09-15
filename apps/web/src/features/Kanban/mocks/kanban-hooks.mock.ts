@@ -1,6 +1,7 @@
 import { jest } from '@jest/globals';
 import type { useAuthState } from '@features/Auth/hooks/useAuthState';
 import { AUTH_TEST_USER } from '@features/Auth/mocks/auth-test-data.mock';
+import type { useDeleteDemand } from '../hooks/useDeleteDemand';
 import type { useDemandDetails } from '../hooks/useDemandDetails';
 import type { useKanbanSearchState } from '../hooks/useKanbanSearchState';
 import type { useLoadColumnDemands } from '../hooks/useLoadColumnDemands';
@@ -15,6 +16,7 @@ export const mockResetMoveError = jest.fn<ReturnType<typeof useMoveDemand>['rese
 export const mockLoadMore = jest.fn();
 export const mockSetSession = jest.fn<ReturnType<typeof useAuthState>['setSession']>();
 export const mockMoveDemandAsync = jest.fn();
+export const mockDeleteDemand = jest.fn<ReturnType<typeof useDeleteDemand>['deleteDemand']>();
 
 export const mockUseAuthState = jest.fn<typeof useAuthState>();
 export const mockUseKanbanSearchState = jest.fn<typeof useKanbanSearchState>();
@@ -22,6 +24,7 @@ export const mockUseSelectedDemandState = jest.fn<typeof useSelectedDemandState>
 export const mockUseMoveDemand = jest.fn<typeof useMoveDemand>();
 export const mockUseLoadColumnDemands = jest.fn<typeof useLoadColumnDemands>();
 export const mockUseDemandDetails = jest.fn<typeof useDemandDetails>();
+export const mockUseDeleteDemand = jest.fn<typeof useDeleteDemand>();
 
 jest.mock('@features/Auth/hooks/useAuthState', () => ({ useAuthState: mockUseAuthState }));
 jest.mock('../hooks/useKanbanSearchState', () => ({ useKanbanSearchState: mockUseKanbanSearchState }));
@@ -29,6 +32,7 @@ jest.mock('../hooks/useSelectedDemandState', () => ({ useSelectedDemandState: mo
 jest.mock('../hooks/useMoveDemand', () => ({ useMoveDemand: mockUseMoveDemand }));
 jest.mock('../hooks/useLoadColumnDemands', () => ({ useLoadColumnDemands: mockUseLoadColumnDemands }));
 jest.mock('../hooks/useDemandDetails', () => ({ useDemandDetails: mockUseDemandDetails }));
+jest.mock('../hooks/useDeleteDemand', () => ({ useDeleteDemand: mockUseDeleteDemand }));
 
 export function columnDemandsResult(
   overrides: Partial<ReturnType<typeof useLoadColumnDemands>> = {},
@@ -81,6 +85,12 @@ export function resetKanbanMocks() {
   mockUseDemandDetails.mockReturnValue({
     demand: KANBAN_TEST_DEMAND,
     isLoading: false,
+    error: null,
+  });
+
+  mockUseDeleteDemand.mockReturnValue({
+    deleteDemand: mockDeleteDemand,
+    isDeleting: false,
     error: null,
   });
 }

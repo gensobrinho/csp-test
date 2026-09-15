@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { FiCalendar, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import { Button, Drawer, Spinner } from '@shared/components';
+import { Button, Dialog, Drawer, Spinner } from '@shared/components';
 import TEXTS from '@shared/i18n';
 import { getInitials } from '@/src/shared/utils/helperFunctions';
+import { useDeleteDemand } from '../hooks/useDeleteDemand';
 import { useDemandDetails } from '../hooks/useDemandDetails';
 import type { TDemandStatus } from '../types/TDemandStatus';
 import { formatDeadline, getStatusBackground } from '../utils/helperFunctions';
@@ -33,6 +35,9 @@ export interface DemandDetailsDrawerProps {
 export default function DemandDetailsDrawer({ demandId, onClose }: DemandDetailsDrawerProps) {
   const navigate = useNavigate();
   const { demand, isLoading } = useDemandDetails(demandId);
+  const { deleteDemand, isDeleting } = useDeleteDemand();
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleEdit = () => {
     if (!demandId) {
@@ -42,63 +47,105 @@ export default function DemandDetailsDrawer({ demandId, onClose }: DemandDetails
     navigate(`/demandas/${demandId}/editar`);
   };
 
+  const handleConfirmDelete = async () => {
+    if (!demandId) {
+      return;
+    }
+
+    setError(null);
+    try {
+      await deleteDemand(demandId);
+      setConfirmDelete(false);
+      onClose();
+    } catch {
+      setError(TEXTS.demands.errors.deleteFailed);
+    }
+  };
+
   return (
-    <Drawer
-      open={Boolean(demandId)}
-      onClose={onClose}
-      title={TEXTS.demands.detailsTitle}
-      closeAriaLabel={TEXTS.demands.closeDetails}
-      footer={(
-        <DetailsActions>
-          <Button variant="secondary" type="button" onClick={handleEdit}>
-            <FiEdit2 aria-hidden="true" />
-            {TEXTS.demands.edit}
-          </Button>
-          <Button variant="danger" type="button">
-            <FiTrash2 aria-hidden="true" />
-            {TEXTS.demands.delete}
-          </Button>
-        </DetailsActions>
-      )}
-    >
-      {isLoading || !demand ? (
-        <Spinner centered size={24} />
-      ) : (
-        <>
-          <DetailsField>
-            <DetailsFieldLabel>{TEXTS.demands.fields.title}</DetailsFieldLabel>
-            <DetailsTitleValue>{demand.title}</DetailsTitleValue>
-          </DetailsField>
+    <>
+      <Drawer
+        open={Boolean(demandId)}
+        onClose={onClose}
+        title={TEXTS.demands.detailsTitle}
+        closeAriaLabel={TEXTS.demands.closeDetails}
+        footer={(
+          <DetailsActions>
+            <Button variant="secondary" type="button" onClick={handleEdit}>
+              <FiEdit2 aria-hidden="true" />
+              {TEXTS.demands.edit}
+            </Button>
+            <Button
+              variant="danger"
+              type="button"
+              onClick={() => {
+                setError(null);
+                setConfirmDelete(true);
+              }}
+            >
+              <FiTrash2 aria-hidden="true" />
+              {TEXTS.demands.delete}
+            </Button>
+          </DetailsActions>
+        )}
+      >
+        {isLoading || !demand ? (
+          <Spinner centered size={24} />
+        ) : (
+          <>
+            <DetailsField>
+              <DetailsFieldLabel>{TEXTS.demands.fields.title}</DetailsFieldLabel>
+              <DetailsTitleValue>{demand.title}</DetailsTitleValue>
+            </DetailsField>
 
-          <DetailsField>
-            <DetailsFieldLabel>{TEXTS.demands.fields.responsible}</DetailsFieldLabel>
-            <DetailsResponsible>
-              <Avatar aria-hidden="true">{getInitials(demand.responsibleName)}</Avatar>
-              <span>{demand.responsibleName}</span>
-            </DetailsResponsible>
-          </DetailsField>
+            <DetailsField>
+              <DetailsFieldLabel>{TEXTS.demands.fields.responsible}</DetailsFieldLabel>
+              <DetailsResponsible>
+                <Avatar aria-hidden="true">{getInitials(demand.responsibleName)}</Avatar>
+                <span>{demand.responsibleName}</span>
+              </DetailsResponsible>
+            </DetailsField>
 
-          <DetailsField>
-            <DetailsFieldLabel>{TEXTS.demands.fields.status}</DetailsFieldLabel>
-            <StatusPill $background={getStatusBackground(demand.status)}>
-              {STATUS_LABELS[demand.status]}
-            </StatusPill>
-          </DetailsField>
+            <DetailsField>
+              <DetailsFieldLabel>{TEXTS.demands.fields.status}</DetailsFieldLabel>
+              <StatusPill $background={getStatusBackground(demand.status)}>
+                {STATUS_LABELS[demand.status]}
+              </StatusPill>
+            </DetailsField>
 
-          <DetailsField>
-            <DetailsFieldLabel>{TEXTS.demands.fields.deadline}</DetailsFieldLabel>
-            <DetailsDeadline>
-              <FiCalendar aria-hidden="true" />
-              <span>{formatDeadline(demand.deadline)}</span>
-            </DetailsDeadline>
-          </DetailsField>
+            <DetailsField>
+              <DetailsFieldLabel>{TEXTS.demands.fields.deadline}</DetailsFieldLabel>
+              <DetailsDeadline>
+                <FiCalendar aria-hidden="true" />
+                <span>{formatDeadline(demand.deadline)}</span>
+              </DetailsDeadline>
+            </DetailsField>
 
-          <DetailsField>
-            <DetailsFieldLabel>{TEXTS.demands.fields.description}</DetailsFieldLabel>
-            <DetailsDescription>{demand.description}</DetailsDescription>
-          </DetailsField>
-        </>
-      )}
-    </Drawer>
+            <DetailsField>
+              <DetailsFieldLabel>{TEXTS.demands.fields.description}</DetailsFieldLabel>
+              <DetailsDescription>{demand.description}</DetailsDescription>
+            </DetailsField>
+          </>
+        )}
+      </Drawer>
+
+      <Dialog
+        open={confirmDelete}
+        onClose={() => !isDeleting && setConfirmDelete(false)}
+        title={TEXTS.demands.deleteDialog.title}
+        description={TEXTS.demands.deleteDialog.description}
+        hasCloseButton
+        primaryButtonLabel={TEXTS.common.delete}
+        secondaryButtonLabel={TEXTS.common.cancel}
+        primaryButtonVariant="danger"
+        primaryButtonAction={() => {
+          void handleConfirmDelete();
+        }}
+        isPrimaryLoading={isDeleting}
+        disableCloseOnBackdrop={isDeleting}
+      >
+        {error && <p role="alert">{error}</p>}
+      </Dialog>
+    </>
   );
 }

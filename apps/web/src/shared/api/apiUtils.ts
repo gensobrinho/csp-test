@@ -26,7 +26,9 @@ export const AUTH_API = {
 export const KANBAN_API = {
   ENTRY_POINTS: {
     GET_DEMANDS: '/demands',
+    CREATE_DEMAND: '/demands',
     UPDATE_DEMAND: '/demands',
+    DELETE_DEMAND: '/demands',
   },
 } as const;
 

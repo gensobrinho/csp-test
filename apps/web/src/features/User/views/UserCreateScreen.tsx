@@ -27,6 +27,7 @@ export default function UserCreateScreen() {
   const { updateUser, isUpdating } = useUpdateUser();
 
   const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [role, setRole] = useState<TRole | ''>('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -46,7 +47,7 @@ export default function UserCreateScreen() {
     if (!name.trim() || !role) {
       return;
     }
-    if (!isEdit && !password) {
+    if (!isEdit && (!username.trim() || !password)) {
       return;
     }
 
@@ -59,11 +60,13 @@ export default function UserCreateScreen() {
           payload: {
             name: name.trim(),
             role,
+            ...(username.trim() ? { username: username.trim().toLowerCase() } : {}),
             ...(password ? { password } : {}),
           },
         });
       } else {
         await createUser({
+          username: username.trim().toLowerCase(),
           name: name.trim(),
           role,
           password,
@@ -107,6 +110,14 @@ export default function UserCreateScreen() {
             onChange={(event) => setName(event.target.value)}
             required
           />
+          <Input
+            label={TEXTS.users.fields.username}
+            placeholder={TEXTS.users.placeholders.username}
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            required={!isEdit}
+            autoComplete="username"
+          />
           <Select
             label={TEXTS.users.fields.profile}
             placeholder={TEXTS.users.placeholders.profile}
@@ -126,7 +137,7 @@ export default function UserCreateScreen() {
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             required={!isEdit}
-            autoComplete={isEdit ? 'new-password' : 'new-password'}
+            autoComplete="new-password"
           />
           {error && <FormError role="alert">{error}</FormError>}
         </FormFields>

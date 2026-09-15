@@ -56,11 +56,13 @@ const PT_BR = {
     },
     fields: {
       name: 'Nome',
+      username: 'Usuário',
       profile: 'Perfil',
       password: 'Senha',
     },
     placeholders: {
       name: 'Digite o nome do usuário',
+      username: 'Digite o nome de usuário para login',
       profile: 'Selecione o perfil',
       password: 'Digite a senha',
       passwordEdit: 'Deixe em branco para manter a senha atual',
@@ -80,6 +82,10 @@ const PT_BR = {
     edit: 'Editar',
     delete: 'Excluir',
     openDeadlineCalendar: 'Abrir calendário do prazo',
+    deleteDialog: {
+      title: 'Excluir demanda',
+      description: 'Tem certeza que deseja excluir esta demanda? Esta ação não pode ser desfeita.',
+    },
     fields: {
       title: 'Título',
       responsible: 'Responsável',
@@ -92,6 +98,11 @@ const PT_BR = {
       responsible: 'Selecione o responsável',
       deadline: 'dd/mm/aaaa',
       description: 'Descreva os detalhes da demanda',
+    },
+    errors: {
+      saveFailed: 'Não foi possível salvar a demanda.',
+      deleteFailed: 'Não foi possível excluir a demanda.',
+      userNotFound: 'Usuário não encontrado',
     },
   },
   kanban: {

@@ -2,8 +2,10 @@ import { KANBAN_API, DemoApi } from '@shared/api';
 import { BaseRepository } from '../../../shared/utils/BaseRepository';
 import type {
   IKanbanRepository,
+  TCreateDemandPayload,
   TGetDemandsParams,
   TPaginatedDemands,
+  TUpdateDemandDetailsPayload,
   TUpdateDemandPayload,
 } from '../types/IKanbanRepository';
 import type { TDemand } from '../types/TDemand';
@@ -34,11 +36,34 @@ export class KanbanRepository extends BaseRepository implements IKanbanRepositor
     return response.data;
   }
 
+  async createDemand(payload: TCreateDemandPayload): Promise<TDemand> {
+    const response = await this.api.post<TDemand>(
+      KANBAN_API.ENTRY_POINTS.CREATE_DEMAND,
+      payload,
+    );
+    return response.data;
+  }
+
+  async updateDemandDetails(
+    id: string,
+    payload: TUpdateDemandDetailsPayload,
+  ): Promise<TDemand> {
+    const response = await this.api.put<TDemand>(
+      `${KANBAN_API.ENTRY_POINTS.UPDATE_DEMAND}/${id}`,
+      payload,
+    );
+    return response.data;
+  }
+
   async updateDemand(id: string, payload: TUpdateDemandPayload): Promise<TDemand> {
     const response = await this.api.patch<TDemand>(
       `${KANBAN_API.ENTRY_POINTS.UPDATE_DEMAND}/${id}`,
       payload,
     );
     return response.data;
+  }
+
+  async deleteDemand(id: string): Promise<void> {
+    await this.api.delete(`${KANBAN_API.ENTRY_POINTS.DELETE_DEMAND}/${id}`);
   }
 }

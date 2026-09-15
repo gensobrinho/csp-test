@@ -61,8 +61,10 @@ describe('KanbanManager', () => {
       });
     });
 
-    it('should map HTTP 400 responses to lockedStatus', async () => {
-      mocks.repository.updateDemand.mockRejectedValue({ response: { status: 400 } });
+    it('should map locked_status API errors to lockedStatus', async () => {
+      mocks.repository.updateDemand.mockRejectedValue({
+        response: { status: 400, data: { id: 'locked_status' } },
+      });
 
       await expect(
         manager.updateDemand(KANBAN_TEST_DEMAND.id, { status: 'paused' }, 'not_started'),

@@ -2,6 +2,7 @@ import type { TAuthUser } from '@features/Auth';
 import type {
   IUserRepository,
   TCreateUserPayload,
+  TGetUsersParams,
   TUpdateUserPayload,
 } from '../types/IUserRepository';
 
@@ -12,8 +13,8 @@ export class UserManager {
     this.repository = repository;
   }
 
-  getUsers(): Promise<TAuthUser[]> {
-    return this.repository.getUsers();
+  getUsers(params?: TGetUsersParams): Promise<TAuthUser[]> {
+    return this.repository.getUsers(params);
   }
 
   getUserById(id: string): Promise<TAuthUser> {

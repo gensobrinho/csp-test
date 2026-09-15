@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
 import type { ReactElement, ReactNode } from 'react';
 import { theme } from '../theme';
+import { ToastProvider } from '../components/Toast/ToastProvider';
 
 interface ProviderRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   initialEntries?: string[];
@@ -24,7 +25,9 @@ export function renderWithProviders(
     return (
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={initialEntries}>{children}</MemoryRouter>
+          <ToastProvider>
+            <MemoryRouter initialEntries={initialEntries}>{children}</MemoryRouter>
+          </ToastProvider>
         </ThemeProvider>
       </QueryClientProvider>
     );

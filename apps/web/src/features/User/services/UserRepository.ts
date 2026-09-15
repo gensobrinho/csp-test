@@ -4,6 +4,7 @@ import { BaseRepository } from '../../../shared/utils/BaseRepository';
 import type {
   IUserRepository,
   TCreateUserPayload,
+  TGetUsersParams,
   TUpdateUserPayload,
 } from '../types/IUserRepository';
 
@@ -15,8 +16,11 @@ export class UserRepository extends BaseRepository implements IUserRepository {
     this.api = api;
   }
 
-  async getUsers(): Promise<TAuthUser[]> {
-    const response = await this.api.get<TAuthUser[]>(USER_API.ENTRY_POINTS.GET_USERS);
+  async getUsers(params?: TGetUsersParams): Promise<TAuthUser[]> {
+    const url = this.addQueryParams(USER_API.ENTRY_POINTS.GET_USERS, {
+      role: params?.role,
+    });
+    const response = await this.api.get<TAuthUser[]>(url);
     return response.data;
   }
 
