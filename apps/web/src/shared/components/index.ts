@@ -21,3 +21,5 @@ export { default as Spinner } from './Spinner/Spinner';
 export type { SpinnerProps } from './Spinner/Spinner';
 export { default as Textarea } from './Textarea/Textarea';
 export type { TextareaProps } from './Textarea/Textarea';
+export { ToastProvider, useToast, setToast } from './Toast';
+export type { TToastInput, TToastItem, ToastProps } from './Toast';
