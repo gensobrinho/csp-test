@@ -206,7 +206,7 @@ export class DemandService {
   }
 
   private assertCanMove(role: Role): void {
-    if (role === 'admin' || role === 'agilist' || role === 'developer') {
+    if (role === 'agilist' || role === 'developer') {
       return;
     }
 
