@@ -1,10 +1,11 @@
-import { type KeyboardEvent } from 'react';
+import { type KeyboardEvent, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { useAuthState } from '@features/Auth/hooks/useAuthState';
 import { useGetDemandsList } from '@features/Kanban/hooks/useGetDemandsList';
 import type { TDemandStatus } from '@features/Kanban/types/TDemandStatus';
 import { formatDeadline } from '@features/Kanban/utils/helperFunctions';
+import DemandDetailsDrawer from '@features/Kanban/views/DemandDetailsDrawer';
 import { Button, Spinner } from '@shared/components';
 import TEXTS from '@shared/i18n';
 import { RoutesEnum } from '@/src/_app/types/RoutesEnum';
@@ -31,20 +32,14 @@ export default function DemandScreen() {
   const navigate = useNavigate();
   const { user } = useAuthState();
   const { demands, isLoading } = useGetDemandsList();
+  const [selectedDemandId, setSelectedDemandId] = useState<string | null>(null);
   const canCreateDemand = user?.role === 'admin' || user?.role === 'agilist';
-  const canEditDemand = user?.role === 'agilist' || user?.role === 'developer';
 
   const handleOpenDemand = (demandId: string) => {
-    if (!canEditDemand) {
-      return;
-    }
-    navigate(`/demandas/${demandId}/editar`);
+    setSelectedDemandId(demandId);
   };
 
   const handleCardKeyDown = (event: KeyboardEvent<HTMLLIElement>, demandId: string) => {
-    if (!canEditDemand) {
-      return;
-    }
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       handleOpenDemand(demandId);
@@ -72,8 +67,8 @@ export default function DemandScreen() {
           {demands.map((demand) => (
             <DemandCard
               key={demand.id}
-              role={canEditDemand ? 'button' : undefined}
-              tabIndex={canEditDemand ? 0 : undefined}
+              role="button"
+              tabIndex={0}
               onClick={() => handleOpenDemand(demand.id)}
               onKeyDown={(event) => handleCardKeyDown(event, demand.id)}
               aria-label={demand.title}
@@ -88,6 +83,11 @@ export default function DemandScreen() {
           ))}
         </DemandsList>
       )}
+
+      <DemandDetailsDrawer
+        demandId={selectedDemandId}
+        onClose={() => setSelectedDemandId(null)}
+      />
     </DemandsPage>
   );
 }

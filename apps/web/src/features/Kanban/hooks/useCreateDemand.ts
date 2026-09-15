@@ -10,6 +10,7 @@ export function useCreateDemand() {
     mutationFn: (payload: TCreateDemandPayload) => kanbanManager.createDemand(payload),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: [KanbanQueryEnum.getDemandsByStatus] });
+      void queryClient.invalidateQueries({ queryKey: [KanbanQueryEnum.getDemandsList] });
     },
   });
 

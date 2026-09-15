@@ -17,6 +17,7 @@ export function useUpdateDemand() {
     ),
     onSuccess: (_data, variables) => {
       void queryClient.invalidateQueries({ queryKey: [KanbanQueryEnum.getDemandsByStatus] });
+      void queryClient.invalidateQueries({ queryKey: [KanbanQueryEnum.getDemandsList] });
       void queryClient.invalidateQueries({
         queryKey: [KanbanQueryEnum.getDemandById, variables.id],
       });

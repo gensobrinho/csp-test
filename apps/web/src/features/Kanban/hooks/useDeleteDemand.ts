@@ -9,6 +9,7 @@ export function useDeleteDemand() {
     mutationFn: (id: string) => kanbanManager.deleteDemand(id),
     onSuccess: (_data, id) => {
       void queryClient.invalidateQueries({ queryKey: [KanbanQueryEnum.getDemandsByStatus] });
+      void queryClient.invalidateQueries({ queryKey: [KanbanQueryEnum.getDemandsList] });
       void queryClient.invalidateQueries({
         queryKey: [KanbanQueryEnum.getDemandById, id],
       });
