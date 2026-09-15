@@ -198,7 +198,7 @@ export class DemandService {
   }
 
   private assertCanEdit(role: Role): void {
-    if (role === 'admin' || role === 'agilist' || role === 'developer') {
+    if (role === 'agilist' || role === 'developer') {
       return;
     }
 
@@ -214,7 +214,7 @@ export class DemandService {
   }
 
   private assertCanDelete(role: Role): void {
-    if (role === 'admin' || role === 'agilist') {
+    if (role === 'agilist') {
       return;
     }
 
