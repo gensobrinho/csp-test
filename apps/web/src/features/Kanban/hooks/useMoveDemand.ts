@@ -51,7 +51,8 @@ export function useMoveDemand() {
       void queryClient.invalidateQueries({
         queryKey: [KanbanQueryEnum.getDemandById, variables.id],
       });
-    onError: (error) => {
+    },
+    onError: (error: unknown) => {
       showKanbanErrorToast(getMoveErrorDescription(error));
     },
     retry: false,
