@@ -26,9 +26,6 @@ let imperativeSetToast: ((toast: TToastInput) => void) | null = null;
 
 export function setToast(toast: TToastInput) {
   if (!imperativeSetToast) {
-    if (import.meta.env.DEV) {
-      console.warn('setToast called before ToastProvider was mounted.');
-    }
     return;
   }
   imperativeSetToast(toast);

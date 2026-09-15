@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { Navigate } from 'react-router-dom';
-import { BoxContent, Button, Input } from '@shared/components';
+import { Button, Input } from '@shared/components';
 import TEXTS from '@shared/i18n';
 import { useAuthState } from '../hooks/useAuthState';
 import { useLogin } from '../hooks/useLogin';
@@ -11,13 +11,13 @@ const LoginScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { user } = useAuthState();
-  const { authenticate, isLoading, error, reset } = useLogin();
+  const { authenticate, isLoading, reset } = useLogin();
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
     if (!isLoading) {
-      authenticate({ username, password })
-    };
+      authenticate({ username, password });
+    }
   }
 
   if (user) {
@@ -52,7 +52,6 @@ const LoginScreen = () => {
             disabled={isLoading}
             required
           />
-          {error && <BoxContent role="alert" fit>{error}</BoxContent>}
           <Button type="submit" fullWidth isLoading={isLoading}>
             {isLoading ? TEXTS.auth.accessing : TEXTS.auth.access}
           </Button>

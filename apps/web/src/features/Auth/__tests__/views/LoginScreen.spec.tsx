@@ -29,7 +29,7 @@ describe('Login', () => {
 
     it('should disable inputs and submission while authenticating', () => {
       mockUseLogin.mockReturnValue({
-        authenticate: mockAuthenticate, isLoading: true, error: null, reset: mockResetLogin,
+        authenticate: mockAuthenticate, isLoading: true, reset: mockResetLogin,
       });
       renderWithProviders(<LoginScreen />);
       const username = screen.queryByLabelText(TEXTS.auth.username, { exact: false, selector: 'input' });

@@ -9,6 +9,9 @@ const PT_BR = {
   dialog: {
     close: 'Fechar',
   },
+  toast: {
+    close: 'Fechar notificação',
+  },
   spinner: {
     loading: 'Carregando',
   },
@@ -127,6 +130,7 @@ const PT_BR = {
       invalidSession: 'Sua sessão expirou. Acesse novamente.',
       sessionUnavailable: 'Não foi possível acessar o armazenamento da sessão. Verifique as configurações do navegador.',
       unknown: 'Não foi possível concluir a operação. Tente novamente.',
+      default: "Erro ao efetuar login"
     },
     login: 'Acesse sua conta',
     username: 'Usuário',

@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { createElement, useEffect } from 'react';
+import { FiAlertCircle } from 'react-icons/fi';
+import { setToast } from '@shared/components';
 import authManager from '../services';
 import { useAuthState } from './useAuthState';
 import { getAuthErrorMessage } from '../utils/getAuthErrorMessage';
 
 export function usePersistSession() {
   const { isHydrated, setSession } = useAuthState();
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let isCancelled = false;
@@ -17,7 +18,11 @@ export function usePersistSession() {
       },
       (reason: unknown) => {
         if (!isCancelled) {
-          setError(getAuthErrorMessage(reason));
+          setToast({
+            title: getAuthErrorMessage(reason),
+            icon: createElement(FiAlertCircle),
+            delay: 4000,
+          });
           setSession(null);
         }
       },
@@ -25,5 +30,5 @@ export function usePersistSession() {
     return () => { isCancelled = true; };
   }, [setSession]);
 
-  return { isLoading: !isHydrated, error };
+  return { isLoading: !isHydrated };
 }

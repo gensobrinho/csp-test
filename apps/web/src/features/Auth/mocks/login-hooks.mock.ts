@@ -14,7 +14,7 @@ jest.mock('../hooks/useAuthState', () => ({ useAuthState: mockUseAuthState }));
 export function resetLoginMocks() {
   jest.resetAllMocks();
   mockUseLogin.mockReturnValue({
-    authenticate: mockAuthenticate, isLoading: false, error: null, reset: mockResetLogin,
+    authenticate: mockAuthenticate, isLoading: false, reset: mockResetLogin,
   });
   mockUseAuthState.mockReturnValue({
     user: null, isHydrated: true, setSession: mockSetSession,

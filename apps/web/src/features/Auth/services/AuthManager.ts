@@ -1,5 +1,6 @@
 import { AuthError } from '../types/AuthError.ts';
 import type { AuthSession, IAuthRepository, LoginCredentials } from '../types/IAuthRepository';
+import { getApiErrorId } from '../../../shared/api/apiError';
 
 export interface AuthStorage {
   getItem(key: string): Promise<string | null>;
@@ -8,6 +9,28 @@ export interface AuthStorage {
 }
 
 const AUTH_TOKEN_KEY = 'auth_token';
+
+function toAuthError(error: unknown): AuthError {
+  if (error instanceof AuthError) {
+    return error;
+  }
+
+  const errorId = getApiErrorId(error);
+
+  if (errorId === 'invalid_credentials') {
+    return new AuthError('invalidCredentials');
+  }
+
+  if (
+    errorId === 'invalid_session'
+    || errorId === 'invalid_token'
+    || errorId === 'unauthorized'
+  ) {
+    return new AuthError('invalidSession');
+  }
+
+  return new AuthError('unknown');
+}
 
 export class AuthManager {
   private readonly repository: IAuthRepository;
@@ -34,7 +57,7 @@ export class AuthManager {
       }
       return { token: accessToken, user };
     } catch (error: unknown) {
-      throw error instanceof AuthError ? error : new AuthError('unknown');
+      throw toAuthError(error);
     }
   }
 
@@ -53,11 +76,12 @@ export class AuthManager {
       const user = await this.repository.getUserInfo(token);
       return { token, user };
     } catch (error: unknown) {
-      if (error instanceof AuthError && error.code === 'invalidSession') {
+      const authError = toAuthError(error);
+      if (authError.code === 'invalidSession') {
         this.signOut();
         return null;
       }
-      throw error instanceof AuthError ? error : new AuthError('unknown');
+      throw authError;
     }
   }
 
