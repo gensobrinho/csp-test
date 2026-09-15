@@ -32,12 +32,19 @@ export default function DemandScreen() {
   const { user } = useAuthState();
   const { demands, isLoading } = useGetDemandsList();
   const canCreateDemand = user?.role === 'admin' || user?.role === 'agilist';
+  const canEditDemand = user?.role === 'agilist' || user?.role === 'developer';
 
   const handleOpenDemand = (demandId: string) => {
+    if (!canEditDemand) {
+      return;
+    }
     navigate(`/demandas/${demandId}/editar`);
   };
 
   const handleCardKeyDown = (event: KeyboardEvent<HTMLLIElement>, demandId: string) => {
+    if (!canEditDemand) {
+      return;
+    }
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       handleOpenDemand(demandId);
@@ -65,8 +72,8 @@ export default function DemandScreen() {
           {demands.map((demand) => (
             <DemandCard
               key={demand.id}
-              role="button"
-              tabIndex={0}
+              role={canEditDemand ? 'button' : undefined}
+              tabIndex={canEditDemand ? 0 : undefined}
               onClick={() => handleOpenDemand(demand.id)}
               onKeyDown={(event) => handleCardKeyDown(event, demand.id)}
               aria-label={demand.title}

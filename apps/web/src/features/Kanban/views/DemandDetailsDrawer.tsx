@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FiCalendar, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { useAuthState } from '@features/Auth/hooks/useAuthState';
 import { Button, Dialog, Drawer, Spinner } from '@shared/components';
 import TEXTS from '@shared/i18n';
 import { getInitials } from '@/src/shared/utils/helperFunctions';
@@ -34,10 +35,15 @@ export interface DemandDetailsDrawerProps {
 
 export default function DemandDetailsDrawer({ demandId, onClose }: DemandDetailsDrawerProps) {
   const navigate = useNavigate();
+  const { user } = useAuthState();
   const { demand, isLoading } = useDemandDetails(demandId);
   const { deleteDemand, isDeleting } = useDeleteDemand();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const canEdit = user?.role === 'agilist' || user?.role === 'developer';
+  const canDelete = user?.role === 'agilist';
+  const showActions = canEdit || canDelete;
 
   const handleEdit = () => {
     if (!demandId) {
@@ -69,25 +75,29 @@ export default function DemandDetailsDrawer({ demandId, onClose }: DemandDetails
         onClose={onClose}
         title={TEXTS.demands.detailsTitle}
         closeAriaLabel={TEXTS.demands.closeDetails}
-        footer={(
+        footer={showActions ? (
           <DetailsActions>
-            <Button variant="secondary" type="button" onClick={handleEdit}>
-              <FiEdit2 aria-hidden="true" />
-              {TEXTS.demands.edit}
-            </Button>
-            <Button
-              variant="danger"
-              type="button"
-              onClick={() => {
-                setError(null);
-                setConfirmDelete(true);
-              }}
-            >
-              <FiTrash2 aria-hidden="true" />
-              {TEXTS.demands.delete}
-            </Button>
+            {canEdit && (
+              <Button variant="secondary" type="button" onClick={handleEdit}>
+                <FiEdit2 aria-hidden="true" />
+                {TEXTS.demands.edit}
+              </Button>
+            )}
+            {canDelete && (
+              <Button
+                variant="danger"
+                type="button"
+                onClick={() => {
+                  setError(null);
+                  setConfirmDelete(true);
+                }}
+              >
+                <FiTrash2 aria-hidden="true" />
+                {TEXTS.demands.delete}
+              </Button>
+            )}
           </DetailsActions>
-        )}
+        ) : undefined}
       >
         {isLoading || !demand ? (
           <Spinner centered size={24} />

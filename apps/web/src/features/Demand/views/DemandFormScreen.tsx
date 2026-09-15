@@ -46,7 +46,10 @@ export default function DemandFormScreen() {
   const isSaving = isCreating || isUpdating;
 
   const responsibleOptions = useMemo(
-    () => users.map((user) => ({ value: user.id, label: user.name })),
+    () =>
+      users
+        .filter((user) => user.role === 'agilist' || user.role === 'developer')
+        .map((user) => ({ value: user.id, label: user.name })),
     [users],
   );
 

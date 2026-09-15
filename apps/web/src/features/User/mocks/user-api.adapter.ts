@@ -42,8 +42,16 @@ export const userMockAdapter: AxiosAdapter = async (config) => {
   const usersBase = USER_API.ENTRY_POINTS.GET_USERS;
 
   if (method === 'get' && url.startsWith(usersBase) && !userId) {
+    const roleQuery = new URL(url, 'http://localhost').searchParams.get('role');
+    const roles = roleQuery
+      ? roleQuery.split(',').map((role) => role.trim()).filter(Boolean)
+      : null;
+    const data = usersStore
+      .filter((user) => !roles || roles.includes(user.role))
+      .map((user) => ({ ...user }));
+
     const response: AxiosResponse<TAuthUser[]> = {
-      data: usersStore.map((user) => ({ ...user })),
+      data,
       status: 200,
       statusText: 'OK',
       headers: {},
