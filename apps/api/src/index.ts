@@ -1,15 +1,23 @@
-import express, { Request, Response } from 'express';
+import cors from 'cors';
+import express from 'express';
+import { createContainer } from './container.js';
+import { createV1Router } from './api/v1/index.js';
+import { errorHandler } from './middleware/errorHandler.js';
 
-const app = express();
-const port = process.env.PORT || 8000;
+export function createApp() {
+  const app = express();
+  const container = createContainer();
 
-app.use(express.json());
-app.use()
+  app.use(cors());
+  app.use(express.json());
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, TypeScript + Express!');
-});
+  app.get('/health', (_req, res) => {
+    res.json({ status: 'ok' });
+  });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+  app.use(createV1Router(container));
+
+  app.use(errorHandler);
+
+  return { app, container };
+}
