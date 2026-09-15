@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@/*": ["./*"],
+      "@src": ["./src"],
+      "@assets": ["./assets"],
+      "@shared/*": ["./src/shared/*"],
+      "@shared": ["./src/shared/index.ts"],
+      "@shared/i18n": ["./src/shared/i18n/index.ts"],
+      "@shared/hooks": ["./src/shared/hooks/index.ts"],
+      "@shared/components": ["./src/shared/components/index.ts"],
+      "@shared/theme": ["./src/shared/theme/index.ts"],
+      "@shared/types": ["./src/shared/types/index.ts"],
+      "@shared/utils": ["./src/shared/utils/index.ts"],
+      "@shared/mocks": ["./src/shared/__mocks__/index.ts"],
+      "@shared/api": ["./src/shared/api/index.ts"],
+      "@shared/store": ["./src/shared/store/store.ts"],
+      "@features": ["./src/features/index.ts"],
+      "@features/*": ["./src/features/*"]
+    }
+  },
+  "include": ["src", "jest.setup.ts"]
+}
