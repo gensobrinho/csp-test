@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "pnpm --parallel --filter './apps/*' dev",
+    "dev:all": "docker compose up -d --wait && pnpm --filter @csp-test/api db:setup && pnpm dev",
     "build": "pnpm --recursive build",
     "test": "pnpm --recursive test",
     "lint": "pnpm --recursive lint",
