@@ -133,7 +133,7 @@ describe('UserService', () => {
         name: 'Ana Updated',
         role: 'agilist',
       });
-      expect(mocks.hashAdapter.hash).toHaveBeenCalledWith(UPDATE_USER_INPUT.password);
+      expect(mocks.hashAdapter.hash).toHaveBeenCalledWith('NewSecret123!');
       expect(mocks.userRepository.update).toHaveBeenCalledWith(USER_ENTITY.id, {
         username: 'ana.updated',
         name: 'Ana Updated',
