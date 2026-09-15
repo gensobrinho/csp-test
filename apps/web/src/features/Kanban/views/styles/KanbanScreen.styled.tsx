@@ -210,10 +210,20 @@ export const CardTop = styled.div({
 
 export const CardTitle = styled.h3(({ theme }) => ({
   margin: 0,
+  flex: 1,
+  minWidth: 0,
   fontSize: 14,
   fontWeight: 600,
   lineHeight: 1.35,
+  height: 'calc(1.35em * 2)',
+  minHeight: 'calc(1.35em * 2)',
   color: theme.colors.default.primaryText,
+  display: '-webkit-box',
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  wordBreak: 'break-word',
 }));
 
 export const CardMenuButton = styled.button(({ theme }) => ({
