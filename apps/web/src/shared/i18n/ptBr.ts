@@ -35,6 +35,17 @@ const PT_BR = {
     title: 'Início',
     signedInAs: 'Você está conectado como',
     profile: 'Perfil',
+    password: {
+      title: 'Redefinir senha',
+      current: 'Senha atual',
+      next: 'Nova senha',
+      confirm: 'Confirmar nova senha',
+      submit: 'Salvar nova senha',
+      success: 'Senha atualizada com sucesso.',
+      failed: 'Não foi possível atualizar a senha.',
+      invalidCurrent: 'Senha atual inválida.',
+      mismatch: 'A confirmação da nova senha não confere.',
+    },
   },
   placeholders: {
     kanbanTitle: 'Kanban',
@@ -104,6 +115,7 @@ const PT_BR = {
       deleteFailed: 'Não foi possível excluir a demanda.',
       userNotFound: 'Usuário não encontrado',
     },
+    emptyList: 'Nenhuma demanda encontrada',
   },
   kanban: {
     title: 'Kanban',
@@ -111,6 +123,7 @@ const PT_BR = {
     searchPlaceholder: 'Buscar demandas...',
     searchAriaLabel: 'Buscar',
     newDemand: 'Nova Demanda',
+    userMenu: 'Menu do usuário',
     loadMore: 'Ver mais',
     emptyColumn: 'Nenhuma demanda',
     cardMenu: 'Opções da demanda',

@@ -3,6 +3,7 @@ import type { TAuthUser } from '@features/Auth';
 import { BaseRepository } from '../../../shared/utils/BaseRepository';
 import type {
   IUserRepository,
+  TChangePasswordPayload,
   TCreateUserPayload,
   TGetUsersParams,
   TUpdateUserPayload,
@@ -45,6 +46,10 @@ export class UserRepository extends BaseRepository implements IUserRepository {
       payload,
     );
     return response.data;
+  }
+
+  async changePassword(payload: TChangePasswordPayload): Promise<void> {
+    await this.api.patch(USER_API.ENTRY_POINTS.CHANGE_PASSWORD, payload);
   }
 
   async deleteUser(id: string): Promise<void> {

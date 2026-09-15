@@ -1,7 +1,12 @@
 import type { Role } from '@prisma/client';
 import type { IHashAdapter } from '../../adapters/types.js';
 import { AppError } from '../../utils/AppError.js';
-import type { CreateUserInput, PublicUser, UpdateUserInput } from './user.model.js';
+import type {
+  ChangePasswordInput,
+  CreateUserInput,
+  PublicUser,
+  UpdateUserInput,
+} from './user.model.js';
 import type { UserRepository } from './user.repository.js';
 
 function toPublicUser(user: { id: string; name: string; role: Role }): PublicUser {
@@ -83,6 +88,23 @@ export class UserService {
     });
 
     return toPublicUser(user);
+  }
+
+  async changePassword(userId: string, input: ChangePasswordInput): Promise<void> {
+    const user = await this.userRepository.findById(userId);
+
+    if (!user) {
+      throw new AppError(404, 'user_not_found', 'Usuário não encontrado');
+    }
+
+    const isValid = await this.hashAdapter.compare(input.currentPassword, user.passwordHash);
+
+    if (!isValid) {
+      throw new AppError(400, 'invalid_current_password', 'Senha atual inválida');
+    }
+
+    const passwordHash = await this.hashAdapter.hash(input.newPassword);
+    await this.userRepository.update(userId, { passwordHash });
   }
 
   async deleteUser(id: string): Promise<void> {

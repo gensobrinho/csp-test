@@ -1,6 +1,8 @@
 import type { Request } from 'express';
+import { AppError } from '../../utils/AppError.js';
 import { HttpResponse, type ControllerResponse } from '../../utils/HttpResponse.js';
 import {
+  changePasswordSchema,
   createUserSchema,
   updateUserSchema,
   type PublicUser,
@@ -31,6 +33,16 @@ export class UserController {
     const input = updateUserSchema.parse(req.body);
     const user = await this.userService.updateUser(req.params.id as string, input);
     return HttpResponse.ok(user);
+  }
+
+  async changePassword(req: Request): Promise<ControllerResponse> {
+    if (!req.user) {
+      throw new AppError(401, 'unauthorized', 'Usuário não autenticado');
+    }
+
+    const input = changePasswordSchema.parse(req.body);
+    await this.userService.changePassword(req.user.id, input);
+    return HttpResponse.noContent();
   }
 
   async deleteUser(req: Request): Promise<ControllerResponse> {

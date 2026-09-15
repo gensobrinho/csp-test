@@ -24,6 +24,7 @@ export class KanbanRepository extends BaseRepository implements IKanbanRepositor
       page: params.page ?? 1,
       limit: params.limit ?? 10,
       search: params.search || undefined,
+      responsibleId: params.responsibleId,
     });
     const response = await this.api.get<TPaginatedDemands>(url);
     return response.data;

@@ -14,12 +14,21 @@ export class DemandController {
   constructor(private readonly demandService: DemandService) {}
 
   async getDemands(req: Request): Promise<ControllerResponse<PaginatedResult<DemandDto>>> {
-    const demands = await this.demandService.getDemands({
-      status: typeof req.query.status === 'string' ? req.query.status : undefined,
-      search: typeof req.query.search === 'string' ? req.query.search : undefined,
-      page: typeof req.query.page === 'string' ? req.query.page : undefined,
-      limit: typeof req.query.limit === 'string' ? req.query.limit : undefined,
-    });
+    if (!req.user) {
+      throw new AppError(401, 'unauthorized', 'Usuário não autenticado');
+    }
+
+    const demands = await this.demandService.getDemands(
+      {
+        status: typeof req.query.status === 'string' ? req.query.status : undefined,
+        search: typeof req.query.search === 'string' ? req.query.search : undefined,
+        page: typeof req.query.page === 'string' ? req.query.page : undefined,
+        limit: typeof req.query.limit === 'string' ? req.query.limit : undefined,
+        responsibleId:
+          typeof req.query.responsibleId === 'string' ? req.query.responsibleId : undefined,
+      },
+      req.user,
+    );
 
     return HttpResponse.ok(demands);
   }

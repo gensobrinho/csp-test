@@ -38,5 +38,6 @@ export const USER_API = {
     CREATE_USER: '/users',
     UPDATE_USER: '/users',
     DELETE_USER: '/users',
+    CHANGE_PASSWORD: '/users/me/password',
   },
 } as const;

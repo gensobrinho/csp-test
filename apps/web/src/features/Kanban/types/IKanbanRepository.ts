@@ -6,6 +6,7 @@ export type TGetDemandsParams = {
   page?: number;
   limit?: number;
   search?: string;
+  responsibleId?: string;
 };
 
 export type TPaginatedDemands = {

@@ -14,6 +14,7 @@ import type { TDemandStatus } from '../types/TDemandStatus';
 import { canDragDemand, canMoveDemandStatus } from '../utils/canDragDemand';
 import DemandDetailsDrawer from './DemandDetailsDrawer';
 import KanbanColumn from './KanbanColumn';
+import UserMenu from './UserMenu';
 import {
   Board,
   BoardFeedback,
@@ -81,6 +82,7 @@ export default function KanbanScreen() {
   const [searchDraft, setSearchDraft] = useState(searchQuery);
   const [feedback, setFeedback] = useState<string | null>(null);
   const allowDrag = canDragDemand(user?.role);
+  const canCreateDemand = user?.role === 'admin' || user?.role === 'agilist';
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
@@ -143,10 +145,13 @@ export default function KanbanScreen() {
               onIconClick={() => setSearchQuery(searchDraft.trim())}
             />
           </SearchField>
-          <Button onClick={() => navigate(RoutesEnum.DEMAND_CREATE)}>
-            <FiPlus aria-hidden="true" />
-            {TEXTS.kanban.newDemand}
-          </Button>
+          {canCreateDemand && (
+            <Button onClick={() => navigate(RoutesEnum.DEMAND_CREATE)}>
+              <FiPlus aria-hidden="true" />
+              {TEXTS.kanban.newDemand}
+            </Button>
+          )}
+          <UserMenu />
         </HeaderActions>
       </KanbanHeader>
 

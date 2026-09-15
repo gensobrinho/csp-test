@@ -29,8 +29,12 @@ export function AppRouter() {
             <Route element={<AppLayout />}>
               <Route path={RoutesEnum.HOME} element={<Home />} />
               <Route path={RoutesEnum.KANBAN} element={<KanbanScreen />} />
-              <Route path={RoutesEnum.DEMAND_CREATE} element={<DemandFormScreen />} />
-              <Route path={RoutesEnum.DEMAND_EDIT} element={<DemandFormScreen />} />
+              <Route element={<RoleRoute roles={['admin', 'agilist']} />}>
+                <Route path={RoutesEnum.DEMAND_CREATE} element={<DemandFormScreen />} />
+              </Route>
+              <Route element={<RoleRoute roles={['admin', 'agilist', 'developer']} />}>
+                <Route path={RoutesEnum.DEMAND_EDIT} element={<DemandFormScreen />} />
+              </Route>
               <Route path={RoutesEnum.DEMANDS} element={<DemandScreen />} />
               <Route element={<RoleRoute roles={['admin']} />}>
                 <Route path={RoutesEnum.USER_CREATE} element={<UserCreateScreen />} />

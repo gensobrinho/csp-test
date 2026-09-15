@@ -10,6 +10,7 @@ export class DemandRepository {
   async findMany(params: {
     status?: DemandStatus;
     search?: string;
+    responsibleId?: string;
     skip: number;
     take: number;
   }): Promise<{ items: DemandWithResponsible[]; total: number }> {
@@ -17,6 +18,10 @@ export class DemandRepository {
 
     if (params.status) {
       where.status = params.status;
+    }
+
+    if (params.responsibleId) {
+      where.responsibleId = params.responsibleId;
     }
 
     if (params.search?.trim()) {

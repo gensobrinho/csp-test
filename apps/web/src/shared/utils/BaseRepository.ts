@@ -12,13 +12,14 @@ export class BaseRepository implements IBaseRepository {
     }
 
     const [baseUrl, queryString] = url.split('?');
-    const urlHasParams = !!queryString;
     let paramString = queryString ?? '';
+    let hasParams = !!queryString;
 
-    Object.keys(params).forEach((key, index) => {
+    Object.keys(params).forEach((key) => {
       if (params[key] !== undefined) {
-        const separator = !urlHasParams && index === 0 ? '?' : '&';
+        const separator = hasParams ? '&' : '?';
         paramString += `${separator}${key}=${params[key]}`;
+        hasParams = true;
       }
     });
 

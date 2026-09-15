@@ -19,6 +19,11 @@ export function createUserRouter(
     asyncHandler(async (req) => userController.getUsers(req)),
   );
 
+  router.patch(
+    '/me/password',
+    asyncHandler(async (req) => userController.changePassword(req)),
+  );
+
   router.get(
     '/:id',
     asyncHandler(async (req) => userController.getUserById(req)),

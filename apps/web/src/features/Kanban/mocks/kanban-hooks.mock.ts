@@ -33,6 +33,13 @@ jest.mock('../hooks/useMoveDemand', () => ({ useMoveDemand: mockUseMoveDemand })
 jest.mock('../hooks/useLoadColumnDemands', () => ({ useLoadColumnDemands: mockUseLoadColumnDemands }));
 jest.mock('../hooks/useDemandDetails', () => ({ useDemandDetails: mockUseDemandDetails }));
 jest.mock('../hooks/useDeleteDemand', () => ({ useDeleteDemand: mockUseDeleteDemand }));
+jest.mock('@features/Auth/hooks/useLogout', () => ({
+  useLogout: () => ({
+    logout: jest.fn(),
+    isLoading: false,
+    error: null,
+  }),
+}));
 
 export function columnDemandsResult(
   overrides: Partial<ReturnType<typeof useLoadColumnDemands>> = {},

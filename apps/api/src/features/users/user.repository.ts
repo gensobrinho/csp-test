@@ -31,8 +31,8 @@ export class UserRepository {
     id: string,
     data: {
       username?: string;
-      name: string;
-      role: Role;
+      name?: string;
+      role?: Role;
       passwordHash?: string;
     },
   ): Promise<User> {

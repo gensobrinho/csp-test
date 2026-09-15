@@ -1,6 +1,7 @@
 import type { TAuthUser } from '@features/Auth';
 import type {
   IUserRepository,
+  TChangePasswordPayload,
   TCreateUserPayload,
   TGetUsersParams,
   TUpdateUserPayload,
@@ -27,6 +28,10 @@ export class UserManager {
 
   updateUser(id: string, payload: TUpdateUserPayload): Promise<TAuthUser> {
     return this.repository.updateUser(id, payload);
+  }
+
+  changePassword(payload: TChangePasswordPayload): Promise<void> {
+    return this.repository.changePassword(payload);
   }
 
   deleteUser(id: string): Promise<void> {
