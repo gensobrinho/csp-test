@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { Outlet } from 'react-router-dom';
+import { useAuthState } from '@features/Auth/hooks/useAuthState';
 import { Sidebar } from '@shared/components';
-import { APP_NAV_ITEMS } from './navItems';
+import { getNavItemsForRole } from './navItems';
 
 const LayoutRoot = styled.div({
   display: 'flex',
@@ -22,9 +23,12 @@ const MainArea = styled.div(({ theme }) => ({
 }));
 
 export function AppLayout() {
+  const { user } = useAuthState();
+  const navItems = getNavItemsForRole(user?.role);
+
   return (
     <LayoutRoot>
-      <Sidebar items={APP_NAV_ITEMS} />
+      <Sidebar items={navItems} />
       <MainArea>
         <Outlet />
       </MainArea>

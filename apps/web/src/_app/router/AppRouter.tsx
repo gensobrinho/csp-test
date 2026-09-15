@@ -11,6 +11,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppLayout } from '../layout/AppLayout';
 import { RoutesEnum } from '../types/RoutesEnum';
 import { PrivateRoute } from './PrivateRoute';
+import { RoleRoute } from './RoleRoute';
 
 export function AppRouter() {
   const [queryClient] = useState(() => new QueryClient({
@@ -31,9 +32,11 @@ export function AppRouter() {
               <Route path={RoutesEnum.DEMAND_CREATE} element={<DemandFormScreen />} />
               <Route path={RoutesEnum.DEMAND_EDIT} element={<DemandFormScreen />} />
               <Route path={RoutesEnum.DEMANDS} element={<DemandScreen />} />
-              <Route path={RoutesEnum.USER_CREATE} element={<UserCreateScreen />} />
-              <Route path={RoutesEnum.USER_EDIT} element={<UserCreateScreen />} />
-              <Route path={RoutesEnum.USERS} element={<UserScreen />} />
+              <Route element={<RoleRoute roles={['admin']} />}>
+                <Route path={RoutesEnum.USER_CREATE} element={<UserCreateScreen />} />
+                <Route path={RoutesEnum.USER_EDIT} element={<UserCreateScreen />} />
+                <Route path={RoutesEnum.USERS} element={<UserScreen />} />
+              </Route>
             </Route>
           </Route>
         </Routes>
