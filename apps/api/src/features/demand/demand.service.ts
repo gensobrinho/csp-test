@@ -45,25 +45,20 @@ function parseDeadline(value: string): Date {
 export class DemandService {
   constructor(private readonly demandRepository: DemandRepository) {}
 
-  async getDemands(
-    params: {
-      status?: string;
-      search?: string;
-      page?: string | number;
-      limit?: string | number;
-      responsibleId?: string;
-    },
-    actor: { id: string; role: Role },
-  ): Promise<PaginatedResult<DemandDto>> {
+  async getDemands(params: {
+    status?: string;
+    search?: string;
+    page?: string | number;
+    limit?: string | number;
+    responsibleId?: string;
+  }): Promise<PaginatedResult<DemandDto>> {
     const { page, limit } = parsePagination(params.page, params.limit);
     const status = this.parseStatus(params.status);
-    const canViewAll = actor.role === 'admin' || actor.role === 'agilist';
-    const responsibleId = canViewAll ? params.responsibleId : actor.id;
 
     const { items, total } = await this.demandRepository.findMany({
       status,
       search: params.search,
-      responsibleId,
+      responsibleId: params.responsibleId,
       skip: paginationSkip(page, limit),
       take: limit,
     });

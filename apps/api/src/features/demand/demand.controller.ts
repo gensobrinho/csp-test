@@ -18,17 +18,14 @@ export class DemandController {
       throw new AppError(401, 'unauthorized', 'Usuário não autenticado');
     }
 
-    const demands = await this.demandService.getDemands(
-      {
-        status: typeof req.query.status === 'string' ? req.query.status : undefined,
-        search: typeof req.query.search === 'string' ? req.query.search : undefined,
-        page: typeof req.query.page === 'string' ? req.query.page : undefined,
-        limit: typeof req.query.limit === 'string' ? req.query.limit : undefined,
-        responsibleId:
-          typeof req.query.responsibleId === 'string' ? req.query.responsibleId : undefined,
-      },
-      req.user,
-    );
+    const demands = await this.demandService.getDemands({
+      status: typeof req.query.status === 'string' ? req.query.status : undefined,
+      search: typeof req.query.search === 'string' ? req.query.search : undefined,
+      page: typeof req.query.page === 'string' ? req.query.page : undefined,
+      limit: typeof req.query.limit === 'string' ? req.query.limit : undefined,
+      responsibleId:
+        typeof req.query.responsibleId === 'string' ? req.query.responsibleId : undefined,
+    });
 
     return HttpResponse.ok(demands);
   }
