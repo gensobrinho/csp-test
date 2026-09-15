@@ -1,7 +1,7 @@
 import { DemoApi } from '@shared/api';
 import { Storage } from '../../../shared/utils/storage';
-import { AuthRepository } from './AuthRepository';
 import { AuthManager } from './AuthManager';
+import { AuthRepository } from './AuthRepository';
 
 const api = new DemoApi();
 const repository = new AuthRepository(api);

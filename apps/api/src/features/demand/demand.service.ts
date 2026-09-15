@@ -188,26 +188,34 @@ export class DemandService {
   }
 
   private assertCanCreate(role: Role): void {
-    if (role !== 'admin' && role !== 'agilist') {
-      throw new AppError(403, 'forbidden', 'Você não pode cadastrar demandas');
+    if (role === 'admin' || role === 'agilist') {
+      return;
     }
+
+    throw new AppError(403, 'forbidden', 'Você não pode cadastrar demandas');
   }
 
   private assertCanEdit(role: Role): void {
-    if (role !== 'agilist' && role !== 'developer') {
-      throw new AppError(403, 'forbidden', 'Você não pode editar demandas');
+    if (role === 'admin' || role === 'agilist' || role === 'developer') {
+      return;
     }
+
+    throw new AppError(403, 'forbidden', 'Você não pode editar demandas');
   }
 
   private assertCanMove(role: Role): void {
-    if (role !== 'agilist' && role !== 'developer') {
-      throw new AppError(403, 'forbidden', 'Você não pode mover demandas');
+    if (role === 'admin' || role === 'agilist' || role === 'developer') {
+      return;
     }
+
+    throw new AppError(403, 'forbidden', 'Você não pode mover demandas');
   }
 
   private assertCanDelete(role: Role): void {
-    if (role !== 'agilist') {
-      throw new AppError(403, 'forbidden', 'Você não pode excluir demandas');
+    if (role === 'admin' || role === 'agilist') {
+      return;
     }
+
+    throw new AppError(403, 'forbidden', 'Você não pode excluir demandas');
   }
 }

@@ -9,16 +9,16 @@ export function requireRole(...roles: Role[]) {
       return;
     }
 
-    if (!roles.includes(req.user.role)) {
-      next(
-        new AppError(403, 'forbidden', 'Você não tem permissão para executar esta ação', {
-          requiredRoles: roles,
-          currentRole: req.user.role,
-        }),
-      );
+    if (req.user.role === 'admin' || roles.includes(req.user.role)) {
+      next();
       return;
     }
 
-    next();
+    next(
+      new AppError(403, 'forbidden', 'Você não tem permissão para executar esta ação', {
+        requiredRoles: roles,
+        currentRole: req.user.role,
+      }),
+    );
   };
 }
