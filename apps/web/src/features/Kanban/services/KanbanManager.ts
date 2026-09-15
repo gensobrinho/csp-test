@@ -1,4 +1,5 @@
-import { getApiErrorId } from '../../../shared/api/apiError';
+import { getApiErrorBody, getApiErrorId } from '../../../shared/api/apiError';
+import TEXTS from '@shared/i18n';
 import type {
   IKanbanRepository,
   TCreateDemandPayload,
@@ -76,7 +77,12 @@ export class KanbanManager {
       if (getApiErrorId(error) === 'locked_status') {
         throw new KanbanError('lockedStatus');
       }
-      throw new KanbanError('unknown');
+
+      const apiError = getApiErrorBody(error);
+      throw new KanbanError(
+        'unknown',
+        apiError?.message ?? apiError?.id ?? TEXTS.kanban.errors.moveFailed,
+      );
     }
   }
 }

@@ -136,6 +136,7 @@ const PT_BR = {
       inProduction: 'Em produção',
     },
     errors: {
+      title: 'Ocorreu um erro',
       lockedStatus: 'Demandas em produção não podem mudar de status.',
       moveFailed: 'Não foi possível atualizar o status da demanda.',
     },

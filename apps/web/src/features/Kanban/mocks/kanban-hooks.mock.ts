@@ -29,7 +29,10 @@ export const mockUseDeleteDemand = jest.fn<typeof useDeleteDemand>();
 jest.mock('@features/Auth/hooks/useAuthState', () => ({ useAuthState: mockUseAuthState }));
 jest.mock('../hooks/useKanbanSearchState', () => ({ useKanbanSearchState: mockUseKanbanSearchState }));
 jest.mock('../hooks/useSelectedDemandState', () => ({ useSelectedDemandState: mockUseSelectedDemandState }));
-jest.mock('../hooks/useMoveDemand', () => ({ useMoveDemand: mockUseMoveDemand }));
+jest.mock('../hooks/useMoveDemand', () => ({
+  useMoveDemand: mockUseMoveDemand,
+  showKanbanErrorToast: jest.fn(),
+}));
 jest.mock('../hooks/useLoadColumnDemands', () => ({ useLoadColumnDemands: mockUseLoadColumnDemands }));
 jest.mock('../hooks/useDemandDetails', () => ({ useDemandDetails: mockUseDemandDetails }));
 jest.mock('../hooks/useDeleteDemand', () => ({ useDeleteDemand: mockUseDeleteDemand }));

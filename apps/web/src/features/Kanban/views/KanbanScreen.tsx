@@ -8,7 +8,7 @@ import { RoutesEnum } from '@/src/_app/types/RoutesEnum';
 import { KANBAN_COLUMNS } from '../constants/kanbanColumns';
 import { useKanbanSearchState } from '../hooks/useKanbanSearchState';
 import { useLoadColumnDemands } from '../hooks/useLoadColumnDemands';
-import { useMoveDemand } from '../hooks/useMoveDemand';
+import { showKanbanErrorToast, useMoveDemand } from '../hooks/useMoveDemand';
 import { useSelectedDemandState } from '../hooks/useSelectedDemandState';
 import type { TDemandStatus } from '../types/TDemandStatus';
 import { canDragDemand, canMoveDemandStatus } from '../utils/canDragDemand';
@@ -17,7 +17,6 @@ import KanbanColumn from './KanbanColumn';
 import UserMenu from './UserMenu';
 import {
   Board,
-  BoardFeedback,
   HeaderActions,
   KanbanHeader,
   KanbanPage,
@@ -78,9 +77,8 @@ export default function KanbanScreen() {
   const { user } = useAuthState();
   const { searchQuery, setSearchQuery } = useKanbanSearchState();
   const { selectedDemandId, setSelectedDemandId } = useSelectedDemandState();
-  const { moveDemand, isMoving, error: moveError, reset: resetMoveError } = useMoveDemand();
+  const { moveDemand, isMoving, reset: resetMoveError } = useMoveDemand();
   const [searchDraft, setSearchDraft] = useState(searchQuery);
-  const [feedback, setFeedback] = useState<string | null>(null);
   const allowDrag = canDragDemand(user?.role);
   const canCreateDemand = user?.role === 'admin' || user?.role === 'agilist';
 
@@ -91,12 +89,6 @@ export default function KanbanScreen() {
 
     return () => window.clearTimeout(timeoutId);
   }, [searchDraft, setSearchQuery]);
-
-  useEffect(() => {
-    if (moveError) {
-      setFeedback(moveError);
-    }
-  }, [moveError]);
 
   const handleDropDemand = ({
     demandId,
@@ -115,17 +107,11 @@ export default function KanbanScreen() {
     }
 
     if (!canMoveDemandStatus(fromStatus, toStatus)) {
-      setFeedback(TEXTS.kanban.errors.lockedStatus);
+      showKanbanErrorToast(TEXTS.kanban.errors.lockedStatus);
       return;
     }
 
-    setFeedback(null);
-    moveDemand(
-      { id: demandId, fromStatus, toStatus },
-      {
-        onSuccess: () => setFeedback(null),
-      },
-    );
+    moveDemand({ id: demandId, fromStatus, toStatus });
   };
 
   return (
@@ -154,8 +140,6 @@ export default function KanbanScreen() {
           <UserMenu />
         </HeaderActions>
       </KanbanHeader>
-
-      {feedback && <BoardFeedback role="alert">{feedback}</BoardFeedback>}
 
       <Board aria-busy={isMoving || undefined}>
         {KANBAN_COLUMNS.map((column) => (

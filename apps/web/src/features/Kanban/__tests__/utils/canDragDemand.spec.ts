@@ -2,13 +2,13 @@ import { describe, expect, it } from '@jest/globals';
 import { canDragDemand, canMoveDemandStatus } from '../../utils/canDragDemand';
 
 describe('canDragDemand', () => {
-  it('should allow drag for authenticated roles', () => {
-    expect(canDragDemand('admin')).toBe(true);
+  it('should allow drag for agilist and developer', () => {
     expect(canDragDemand('agilist')).toBe(true);
     expect(canDragDemand('developer')).toBe(true);
   });
 
-  it('should block drag when there is no role', () => {
+  it('should block drag for admin and when there is no role', () => {
+    expect(canDragDemand('admin')).toBe(false);
     expect(canDragDemand(undefined)).toBe(false);
   });
 });

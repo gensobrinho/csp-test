@@ -1,4 +1,7 @@
+import { createElement } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { FiAlertCircle } from 'react-icons/fi';
+import { setToast } from '@shared/components';
 import TEXTS from '@shared/i18n';
 import kanbanManager, { KanbanError } from '../services';
 import { KanbanQueryEnum } from '../types/KanbanQueryEnum';
@@ -10,10 +13,23 @@ export type TMoveDemandVariables = {
   toStatus: TDemandStatus;
 };
 
-function getMoveErrorMessage(error: unknown) {
-  if (error instanceof KanbanError && error.code === 'lockedStatus') {
-    return TEXTS.kanban.errors.lockedStatus;
+export function showKanbanErrorToast(description: string) {
+  setToast({
+    title: TEXTS.kanban.errors.title,
+    description,
+    icon: createElement(FiAlertCircle),
+    delay: 4000,
+  });
+}
+
+function getMoveErrorDescription(error: unknown) {
+  if (error instanceof KanbanError) {
+    if (error.code === 'lockedStatus') {
+      return TEXTS.kanban.errors.lockedStatus;
+    }
+    return error.message || TEXTS.kanban.errors.moveFailed;
   }
+
   return TEXTS.kanban.errors.moveFailed;
 }
 
@@ -35,6 +51,9 @@ export function useMoveDemand() {
         queryKey: [KanbanQueryEnum.getDemandById, variables.id],
       });
     },
+    onError: (error) => {
+      showKanbanErrorToast(getMoveErrorDescription(error));
+    },
     retry: false,
   });
 
@@ -42,7 +61,7 @@ export function useMoveDemand() {
     moveDemand: mutation.mutate,
     moveDemandAsync: mutation.mutateAsync,
     isMoving: mutation.isPending,
-    error: mutation.error ? getMoveErrorMessage(mutation.error) : null,
+    error: mutation.error ? getMoveErrorDescription(mutation.error) : null,
     reset: mutation.reset,
   };
 }

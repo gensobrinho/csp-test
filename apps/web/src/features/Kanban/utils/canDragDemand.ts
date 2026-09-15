@@ -2,7 +2,7 @@ import type { TRole } from '@features/Auth';
 import { LOCKED_DEMAND_STATUS, type TDemandStatus } from '../types/TDemandStatus';
 
 export function canDragDemand(role: TRole | undefined) {
-  return Boolean(role);
+  return role === 'agilist' || role === 'developer';
 }
 
 export function canMoveDemandStatus(fromStatus: TDemandStatus, toStatus: TDemandStatus) {
