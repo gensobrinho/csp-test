@@ -4,7 +4,7 @@ import { createApp } from './src/index.js';
 
 const { app, container } = createApp();
 
-const server = app.listen(env.port, () => {
+const server = app.listen(env.port, '0.0.0.0', () => {
   console.log(`API running at http://localhost:${env.port}`);
 });
 
